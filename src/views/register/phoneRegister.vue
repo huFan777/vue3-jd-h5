@@ -4,7 +4,9 @@
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="gray-btn"></svg-icon>
       </span>
-      <span slot="right" @click="$router.push('/register/emailRegister')">邮箱注册</span>
+      <span slot="right" @click="$router.push('/register/emailRegister')"
+        >邮箱注册</span
+      >
     </cm-header>
     <div class="mall-logo">
       <img src="../../assets/image/setting/logo.png" />
@@ -14,7 +16,10 @@
       <p class="number-tips">请输入4位数验证码</p>
       <van-cell-group class="info-list">
         <ValidationObserver ref="observer" tag="form">
-          <ValidationProvider v-slot="{ errors }" :rules="{regex:/^1[3456789]\d{9}$/,required:true}">
+          <ValidationProvider
+            v-slot="{ errors }"
+            :rules="{ regex: /^1[3456789]\d{9}$/, required: true }"
+          >
             <van-field
               v-model="phoneRegisterForm.mobile"
               :error-message="errors[0]"
@@ -24,7 +29,10 @@
               placeholder="请输入手机号"
             />
           </ValidationProvider>
-          <ValidationProvider v-slot="{ errors }" :rules="{regex:/^\d{4}$/,required:true}">
+          <ValidationProvider
+            v-slot="{ errors }"
+            :rules="{ regex: /^\d{4}$/, required: true }"
+          >
             <van-field
               v-model="phoneRegisterForm.verifyCode"
               :error-message="errors[0]"
@@ -37,7 +45,8 @@
                 size="small"
                 @click="handleGetVerifyCode"
                 type="default"
-              >获取验证码</van-button>
+                >获取验证码</van-button
+              >
             </van-field>
             <van-field class="temp-empty" />
           </ValidationProvider>
@@ -52,23 +61,23 @@
 
 <script>
 export default {
-  name: 'phoneRegister',
-  data () {
+  name: "phoneRegister",
+  data() {
     return {
       phoneRegisterForm: {
-        areaCode: '86'
+        areaCode: "86"
       }
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    async goToNextStep () {
-      const isValid = await this.$refs.observer.validate()
+    async goToNextStep() {
+      const isValid = await this.$refs.observer.validate();
       if (isValid) {
         this.$router.push({
-          path: '/register/phoneRegisterTwo',
+          path: "/register/phoneRegisterTwo",
           query: this.phoneRegisterForm
-        })
+        });
       }
       // if (
       //   !this.phoneRegisterForm.mobile ||
@@ -85,35 +94,35 @@ export default {
       //   });
       // }
     },
-    handlePhoneBlur () {},
+    handlePhoneBlur() {},
 
-    handleGetVerifyCode () {
+    handleGetVerifyCode() {
       if (!this.phoneRegisterForm.mobile) {
         this.$toast({
           mask: false,
-          message: '手机号不能为空！'
-        })
-        return
+          message: "手机号不能为空！"
+        });
+        return;
       }
-      this.phoneRegisterForm.type = 1
+      this.phoneRegisterForm.type = 1;
       this.$http
         .post(`/api/user/getVerifyCode`, this.phoneRegisterForm)
         .then(response => {
           if (response.data.code === 0) {
             this.$toast({
               mask: false,
-              message: '发送成功！'
-            })
+              message: "发送成功！"
+            });
           } else {
             this.$toast({
               mask: false,
               message: response.data.msg
-            })
+            });
           }
-        })
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -143,16 +152,16 @@ export default {
       padding-bottom: 32px;
       font-size: 11px;
     }
-    /deep/ .van-hairline--top-bottom::after {
+    ::deep .van-hairline--top-bottom::after {
       display: none;
     }
-    /deep/ .temp-empty {
+    ::deep .temp-empty {
       display: none;
     }
-    /deep/ .van-cell-group {
+    ::deep .van-cell-group {
       background-color: transparent;
     }
-    /deep/ .van-cell {
+    ::deep .van-cell {
       background-color: transparent;
       padding-left: 0;
       padding-right: 0;

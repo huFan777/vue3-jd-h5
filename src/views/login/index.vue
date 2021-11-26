@@ -28,39 +28,41 @@
 
     <div class="login-register-btns">
       <span class="login-btn" @click="handleUserLogin">登录</span>
-      <router-link class="register-btn" tag="span" to="/register/phoneRegister">注册</router-link>
+      <router-link class="register-btn" tag="span" to="/register/phoneRegister"
+        >注册</router-link
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login',
-  data () {
+  name: "login",
+  data() {
     return {
       loginForm: {
-        user: '',
-        password: ''
+        user: "",
+        password: ""
       }
-    }
+    };
   },
   methods: {
-    handleUserLogin () {
+    handleUserLogin() {
       this.$http.post(`/api/user/login`, this.loginForm).then(response => {
         if (response.data.code === 0) {
-          localStorage.setItem('token', response.data.content.token)
-          this.$router.push('/index')
+          localStorage.setItem("token", response.data.content.token);
+          this.$router.push("/index");
         } else {
           this.$toast({
             mask: false,
             duration: 1000,
             message: response.data.msg
-          })
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -97,18 +99,18 @@ export default {
         }
       }
     }
-    /deep/ .temp-empty {
+    ::deep .temp-empty {
       display: none;
     }
-    /deep/ .van-cell-group {
+    ::deep .van-cell-group {
       background-color: transparent;
     }
-    /deep/ .van-cell {
+    ::deep .van-cell {
       background-color: transparent;
       font-size: 17px;
       padding-top: 60px;
     }
-    /deep/ .van-hairline--top-bottom::after {
+    ::deep .van-hairline--top-bottom::after {
       font-size: 17px;
       border-width: 0;
     }

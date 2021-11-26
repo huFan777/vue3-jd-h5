@@ -11,26 +11,42 @@
       </span>
     </cm-header>
     <van-checkbox-group v-model="footprintForm.ids" ref="wrapper">
-      <list-scroll :pullup="true" :scroll-data="footPrintArrays" @scrollToEnd="handleScrollToEnd">
+      <list-scroll
+        :pullup="true"
+        :scroll-data="footPrintArrays"
+        @scrollToEnd="handleScrollToEnd"
+      >
         <div>
-          <section class="order-card" v-for="(item, i) in footPrintArrays" :key="i">
-            <b class="foot-date" v-if="i===0||item.dateFlag">{{item.date}}</b>
+          <section
+            class="order-card"
+            v-for="(item, i) in footPrintArrays"
+            :key="i"
+          >
+            <b class="foot-date" v-if="i === 0 || item.dateFlag">{{
+              item.date
+            }}</b>
             <ul class="order-list">
               <div class="order-info">
                 <li class="check-item" v-if="showButton">
-                  <van-checkbox :key="i" checked-color="#91C95B" :name="item.id"></van-checkbox>
+                  <van-checkbox
+                    :key="i"
+                    checked-color="#91C95B"
+                    :name="item.id"
+                  ></van-checkbox>
                 </li>
                 <img v-lazy="item.image" />
                 <li class="order-detail">
-                  <b class="product-name">{{item.name}}</b>
+                  <b class="product-name">{{ item.name }}</b>
                   <div class="info-count">
-                    <span>￥{{item.price}}</span>
+                    <span>￥{{ item.price }}</span>
                     <router-link
                       tag="span"
                       class="slimiar-btn"
                       :to="`/myFocus/lookSimilar?categoryId=${item.categoryId}`"
                     >
-                      <van-tag color="#EC3924" size="large" plain>找相似</van-tag>
+                      <van-tag color="#EC3924" size="large" plain
+                        >找相似</van-tag
+                      >
                     </router-link>
                   </div>
                 </li>
@@ -38,64 +54,76 @@
             </ul>
           </section>
           <van-divider
-            :style="{ color: '#3A3A3A', borderColor: '#FFF' ,fontSize:'12px', padding: '15px' }"
+            :style="{
+              color: '#3A3A3A',
+              borderColor: '#FFF',
+              fontSize: '12px',
+              padding: '15px'
+            }"
           >
-            <van-loading v-if="loading" color="#EC3924" size="25px" type="spinner" />
+            <van-loading
+              v-if="loading"
+              color="#EC3924"
+              size="25px"
+              type="spinner"
+            />
             <i v-else>我是有底线的</i>
           </van-divider>
         </div>
       </list-scroll>
     </van-checkbox-group>
     <div class="pay-btn" v-show="showButton">
-      <van-button type="danger" @click="handleDeleteFootprint" size="large">删除</van-button>
+      <van-button type="danger" @click="handleDeleteFootprint" size="large"
+        >删除</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'myFootprint',
-  data () {
+  name: "myFootprint",
+  data() {
     return {
       pageNum: 1,
       loading: true,
       footprintForm: {},
       showButton: false,
       footPrintArrays: []
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
-  mounted () {
-    this.setHomeWrapperHeight()
+  mounted() {
+    this.setHomeWrapperHeight();
   },
   methods: {
-    handleScrollToEnd () {
+    handleScrollToEnd() {
       if (this.loading) {
-        this.pageNum++
-        this.initData()
+        this.pageNum++;
+        this.initData();
       }
     },
     // 动态设置searc-wrap的高
-    setHomeWrapperHeight () {
-      let $screenHeight = document.documentElement.clientHeight
-      this.$refs.wrapper.$el.style.height = $screenHeight - 30 + 'px'
+    setHomeWrapperHeight() {
+      let $screenHeight = document.documentElement.clientHeight;
+      this.$refs.wrapper.$el.style.height = $screenHeight - 30 + "px";
     },
-    handleDeleteFootprint () {
+    handleDeleteFootprint() {
       this.$http
         .post(`/api/user/delFootPrint`, { ids: this.footprintForm.ids })
         .then(response => {
           this.$toast({
             mask: false,
             duration: 1000,
-            message: '删除成功！'
-          })
-          this.initData(true)
-        })
+            message: "删除成功！"
+          });
+          this.initData(true);
+        });
     },
 
-    initData (flag) {
+    initData(flag) {
       this.$http
         .post(`/api/user/footPrint`, {
           pageNum: flag ? 1 : this.pageNum,
@@ -103,32 +131,32 @@ export default {
         })
         .then(response => {
           if (!response.data.content) {
-            this.loading = false
-            return
+            this.loading = false;
+            return;
           }
-          let responseArrays = response.data.content.userFootPrintInfoVos
+          let responseArrays = response.data.content.userFootPrintInfoVos;
           if (responseArrays.length === 1) {
-            responseArrays[0].dateFlag = true
+            responseArrays[0].dateFlag = true;
           } else {
             for (let index = 1; index < responseArrays.length; index++) {
               if (
                 responseArrays[index].date !== responseArrays[index - 1].date
               ) {
-                responseArrays[index].dateFlag = true
+                responseArrays[index].dateFlag = true;
               }
             }
           }
           if (flag) {
-            this.loading = true
-            this.pageNum = 1
-            this.footPrintArrays = responseArrays
+            this.loading = true;
+            this.pageNum = 1;
+            this.footPrintArrays = responseArrays;
           } else {
-            this.footPrintArrays.push(...responseArrays)
+            this.footPrintArrays.push(...responseArrays);
           }
-        })
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -141,7 +169,7 @@ export default {
       color: #3a3a3a;
       padding-bottom: 10px;
     }
-    /deep/ .van-checkbox {
+    ::deep .van-checkbox {
       padding-left: 0;
       .van-checkbox__label {
         font-size: 13px;
@@ -227,7 +255,7 @@ export default {
     left: 0;
     right: 0;
     padding: 0 16px;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;

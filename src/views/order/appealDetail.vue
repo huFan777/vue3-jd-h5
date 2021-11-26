@@ -11,25 +11,33 @@
         <li class="order-item">
           <div class="store-info">
             <img :src="appealDetailForm.logoUrl" class="header-img" />
-            <b>{{appealDetailForm.shopName}}</b>
+            <b>{{ appealDetailForm.shopName }}</b>
           </div>
         </li>
-        <li class="order-info" v-for="(item,i) in appealDetailForm.appealSkuInfoVos" :key="i">
+        <li
+          class="order-info"
+          v-for="(item, i) in appealDetailForm.appealSkuInfoVos"
+          :key="i"
+        >
           <img :src="item.productMainUrl" />
           <div class="order-detail">
             <p class="info-one">
-              <span class="product-name">{{item.productName}}</span>
-              <b>￥{{item.productAmount}}</b>
+              <span class="product-name">{{ item.productName }}</span>
+              <b>￥{{ item.productAmount }}</b>
             </p>
             <p class="info-two">
-              <span>{{item.fullName}}</span>
-              <span>×{{item.quantity}}</span>
+              <span>{{ item.fullName }}</span>
+              <span>×{{ item.quantity }}</span>
             </p>
           </div>
         </li>
         <li class="order-count">
-          <span>共{{appealDetailForm.appealSkuInfoVos[0].quantity}}件商品,小计:</span>
-          <b>￥{{appealDetailForm.allAmount}}</b>
+          <span
+            >共{{
+              appealDetailForm.appealSkuInfoVos[0].quantity
+            }}件商品,小计:</span
+          >
+          <b>￥{{ appealDetailForm.allAmount }}</b>
         </li>
       </ul>
     </section>
@@ -37,8 +45,15 @@
       <van-cell-group>
         <van-field v-model="appealContent.name" disabled label="用户名" />
         <van-field v-model="appealContent.phone" disabled label="手机号" />
-        <div v-for="(appealDetail,index) in appealContent.appealDetailContentVos" :key="index">
-          <van-field v-model="appealDetail.createDate" disabled label="申诉时间" />
+        <div
+          v-for="(appealDetail, index) in appealContent.appealDetailContentVos"
+          :key="index"
+        >
+          <van-field
+            v-model="appealDetail.createDate"
+            disabled
+            label="申诉时间"
+          />
           <van-field
             v-model="appealDetail.content"
             :autosize="{ minHeight: 100 }"
@@ -50,10 +65,14 @@
       </van-cell-group>
       <ul
         class="imgs-list"
-        v-for="(appealDetail,index) in appealContent.appealDetailContentVos"
+        v-for="(appealDetail, index) in appealContent.appealDetailContentVos"
         :key="index"
       >
-        <li class="img-item" v-for="(image,index) in appealDetail.imageUrls" :key="index">
+        <li
+          class="img-item"
+          v-for="(image, index) in appealDetail.imageUrls"
+          :key="index"
+        >
           <img :src="image.imageUrl" class="header-img" />
         </li>
       </ul>
@@ -63,30 +82,30 @@
 
 <script>
 export default {
-  name: 'appealDetail',
-  data () {
+  name: "appealDetail",
+  data() {
     return {
-      username: '',
-      phone: '',
+      username: "",
+      phone: "",
       appealContent: {},
       appealDetailForm: this.$route.params || {}
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
   methods: {
-    initData () {
+    initData() {
       this.$http
         .get(
           `/api/order/complainDetail?appealNo=${this.appealDetailForm.appealNo}`
         )
         .then(response => {
-          this.appealContent = response.data.content
-        })
+          this.appealContent = response.data.content;
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -179,15 +198,15 @@ export default {
     margin: 20px 0;
     border-radius: 5px;
     background-color: #fff;
-    /deep/ .van-cell {
+    ::deep .van-cell {
       padding-left: 0;
       padding-right: 0;
     }
-    /deep/ .van-field__control:disabled {
+    ::deep .van-field__control:disabled {
       color: #3a3a3a;
       font-size: 13px;
     }
-    /deep/ .van-image img {
+    ::deep .van-image img {
       border-radius: 8px;
     }
   }

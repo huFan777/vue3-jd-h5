@@ -22,45 +22,47 @@
         </router-link>
       </ul>
     </section>
-    <van-button plain size="large" type="danger" @click="handleLogout">退出登录</van-button>
+    <van-button plain size="large" type="danger" @click="handleLogout"
+      >退出登录</van-button
+    >
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Setting',
+  name: "Setting",
 
   components: {},
   props: {},
-  data () {
+  data() {
     return {
       checked: false,
       token: localStorage.token
-    }
+    };
   },
   methods: {
-    handleLogout () {
+    handleLogout() {
       this.$http
         .post(`/api/user/logout`, { token: this.token })
         .then(response => {
           if (response.data.code === 0) {
-            localStorage.setItem('token', '')
+            localStorage.setItem("token", "");
             this.$toast({
               mask: false,
               duration: 1000,
-              message: '退出成功！'
-            })
-            this.$router.push('/index')
+              message: "退出成功！"
+            });
+            this.$router.push("/index");
           } else {
             this.$toast({
               mask: false,
               message: response.data.msg
-            })
+            });
           }
-        })
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -90,7 +92,7 @@ export default {
       }
     }
   }
-  /deep/ .van-button--large {
+  ::deep .van-button--large {
     height: 44px;
     line-height: 44px;
   }

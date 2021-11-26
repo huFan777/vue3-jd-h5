@@ -12,8 +12,10 @@
         <li class="receiver-addres">
           <svg-icon icon-class="shipping-address"></svg-icon>
           <div class="address-content">
-            <label>收货人：{{orderForm.toName}} {{orderForm.toPhone}}</label>
-            <span>{{orderForm.fullAddress}}</span>
+            <label
+              >收货人：{{ orderForm.toName }} {{ orderForm.toPhone }}</label
+            >
+            <span>{{ orderForm.fullAddress }}</span>
           </div>
         </li>
       </ul>
@@ -24,36 +26,38 @@
         <li class="list-item">
           <div class="store-info">
             <img v-lazy="orderForm.logoUrl" class="header-img" />
-            <span>{{orderForm.shopName }}</span>
+            <span>{{ orderForm.shopName }}</span>
           </div>
           <span>待支付</span>
         </li>
 
         <li
           class="item-info"
-          v-for="(appOrderProduct,index) in orderForm.appOrderProductVos"
+          v-for="(appOrderProduct, index) in orderForm.appOrderProductVos"
           :key="index"
         >
           <img v-lazy="appOrderProduct.productMainUrl" />
           <div class="order-detail">
             <p class="info-one">
-              <span class="product-name">{{appOrderProduct.productName}}</span>
-              <b>￥{{appOrderProduct.productAmount}}</b>
+              <span class="product-name">{{
+                appOrderProduct.productName
+              }}</span>
+              <b>￥{{ appOrderProduct.productAmount }}</b>
             </p>
             <p class="info-two">
-              <span>{{appOrderProduct.fullName}}</span>
-              <span>×{{appOrderProduct.quantity}}</span>
+              <span>{{ appOrderProduct.fullName }}</span>
+              <span>×{{ appOrderProduct.quantity }}</span>
             </p>
           </div>
         </li>
 
         <li class="order-count">
           <span>订单总价：</span>
-          <i>￥{{orderForm.amount}}</i>
+          <i>￥{{ orderForm.amount }}</i>
         </li>
         <li class="real-pay">
           <span>实付款：</span>
-          <i>￥{{orderForm.amount}}</i>
+          <i>￥{{ orderForm.amount }}</i>
         </li>
       </ul>
     </section>
@@ -66,15 +70,20 @@
         </li>
         <li class="info-item">
           <label>订单编号：</label>
-          <span>{{orderForm.orderNo}}</span>
+          <span>{{ orderForm.orderNo }}</span>
         </li>
         <li class="info-item">
           <label>创建时间：</label>
-          <span>{{orderForm.createDate}}</span>
+          <span>{{ orderForm.createDate }}</span>
         </li>
       </ul>
     </section>
-<van-popup v-model="show" round position="bottom" :style="{ height: '10%' }"></van-popup>
+    <van-popup
+      v-model="show"
+      round
+      position="bottom"
+      :style="{ height: '10%' }"
+    ></van-popup>
     <vue-pickers
       :show="show"
       :columns="columns"
@@ -87,20 +96,22 @@
     <div class="pay-btn">
       <div class="pay-count">
         <span>
-          共{{orderForm.quantity}}件商品，小计：
-          <i>￥{{orderForm.amount}}</i>
+          共{{ orderForm.quantity }}件商品，小计：
+          <i>￥{{ orderForm.amount }}</i>
         </span>
         <span>59：59后取消订单</span>
       </div>
-      <van-button type="danger" @click="handlePay" size="large">立即支付</van-button>
+      <van-button type="danger" @click="handlePay" size="large"
+        >立即支付</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'orderDetail',
-  data () {
+  name: "orderDetail",
+  data() {
     return {
       columns: 1,
       orderForm: {
@@ -108,90 +119,90 @@ export default {
         appOrderProductVos: [
           {
             appealFlag: 0,
-            appealNo: 'string',
-            fullName: 'string',
+            appealNo: "string",
+            fullName: "string",
             id: 0,
             productAmount: 0,
-            productMainUrl: 'string',
-            productName: 'string',
+            productMainUrl: "string",
+            productName: "string",
             quantity: 0,
             skuId: 0
           }
         ],
-        createDate: '2019-08-16T07:49:33.452Z',
-        deliveryDate: '2019-08-16T07:49:33.452Z',
-        finishDate: '2019-08-16T07:49:33.452Z',
+        createDate: "2019-08-16T07:49:33.452Z",
+        deliveryDate: "2019-08-16T07:49:33.452Z",
+        finishDate: "2019-08-16T07:49:33.452Z",
         freightAmount: 0,
-        fullAddress: 'string',
-        logoUrl: 'string',
-        orderNo: 'string',
+        fullAddress: "string",
+        logoUrl: "string",
+        orderNo: "string",
         outPayAmount: 0,
-        outerOrderNo: 'string',
-        payDate: '2019-08-16T07:49:33.452Z',
+        outerOrderNo: "string",
+        payDate: "2019-08-16T07:49:33.452Z",
         quantity: 0,
-        shopName: 'string',
+        shopName: "string",
         status: 0,
-        toName: 'string',
-        toPhone: 'string'
+        toName: "string",
+        toPhone: "string"
       },
       defaultData: [
         {
-          text: 'CoinPay',
-          value: 'CoinPay'
+          text: "CoinPay",
+          value: "CoinPay"
         }
       ],
       pickData: {
         data1: [
           {
-            text: 'CoinPay',
-            value: 'CoinPay'
+            text: "CoinPay",
+            value: "CoinPay"
           }
         ]
       },
       show: false
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
   methods: {
-    initData () {
+    initData() {
       this.$http
         .post(`/api/order/detail`, {
           orderNo: this.$route.params.orderNo
         })
         .then(response => {
-          this.orderForm = response.data.content
-        })
+          this.orderForm = response.data.content;
+        });
     },
-    close () {
-      this.show = false
+    close() {
+      this.show = false;
     },
-    confirmFn () {
-      this.show = false
+    confirmFn() {
+      this.show = false;
       this.$toast.loading({
         mask: true,
         duration: 1000, // 持续展示 toast
         forbidClick: true, // 禁用背景点击
-        loadingType: 'spinner',
-        message: '支付中...'
-      })
+        loadingType: "spinner",
+        message: "支付中..."
+      });
       this.$http
         .get(`/api/coinPay/testPay?orderNo=${this.orderForm.orderNo}`)
-        .then(response => {})
+        .then(response => {});
       setTimeout(() => {
         // this.$toast({
         //   mask: false,
         //   message: "支付成功~"
         // });
-        this.$router.push('/order/transactionDetails')
-      }, 1300)
+        this.$router.push("/order/transactionDetails");
+      }, 1300);
     },
-    handlePay () {
-      this.show = true
+    handlePay() {
+      this.show = true;
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -352,11 +363,11 @@ export default {
         font-weight: 700;
       }
     }
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;
-         border-radius: 4px;
+      border-radius: 4px;
     }
   }
 }

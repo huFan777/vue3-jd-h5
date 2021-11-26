@@ -12,61 +12,77 @@
         <li class="receiver-addres">
           <div class="address-content">
             <svg-icon icon-class="shipping-address"></svg-icon>
-            <span class="address-fullAddress" v-if="orderForm.fullAddress">{{orderForm.fullAddress}}</span>
+            <span class="address-fullAddress" v-if="orderForm.fullAddress">{{
+              orderForm.fullAddress
+            }}</span>
             <span class="address-fullAddress" v-else>请选择收货人地址</span>
           </div>
-          <svg-icon class="arrow-icon-right" icon-class="arrow-icon-right"></svg-icon>
+          <svg-icon
+            class="arrow-icon-right"
+            icon-class="arrow-icon-right"
+          ></svg-icon>
         </li>
       </ul>
     </section>
 
     <section
       class="order-card"
-      v-for="(oderShopSkuInfo,index) in orderForm.oderShopSkuInfoVos"
+      v-for="(oderShopSkuInfo, index) in orderForm.oderShopSkuInfoVos"
       :key="index"
     >
       <ul class="order-list">
         <li class="list-item">
           <div class="store-info">
             <img v-lazy="oderShopSkuInfo.logoUrl" class="header-img" />
-            <span>{{oderShopSkuInfo.shopName}}</span>
+            <span>{{ oderShopSkuInfo.shopName }}</span>
           </div>
           <span>待支付</span>
         </li>
-        <li class="item-info" v-for="(orderSkuInfo,i) in oderShopSkuInfo.orderSkuInfoVos" :key="i">
+        <li
+          class="item-info"
+          v-for="(orderSkuInfo, i) in oderShopSkuInfo.orderSkuInfoVos"
+          :key="i"
+        >
           <img v-lazy="orderSkuInfo.productMainUrl" />
           <div class="order-detail">
             <p class="info-one">
-              <span>{{orderSkuInfo.productName}}</span>
-              <b>￥{{orderSkuInfo.productAmount}}</b>
+              <span>{{ orderSkuInfo.productName }}</span>
+              <b>￥{{ orderSkuInfo.productAmount }}</b>
             </p>
             <p class="info-two">
-              <span>{{orderSkuInfo.fullName}}</span>
-              <span>×{{orderSkuInfo.quantity }}</span>
+              <span>{{ orderSkuInfo.fullName }}</span>
+              <span>×{{ orderSkuInfo.quantity }}</span>
             </p>
           </div>
         </li>
         <li class="order-count">
           <span>快递：</span>
-          <i>￥{{oderShopSkuInfo.freightAmount}}</i>
+          <i>￥{{ oderShopSkuInfo.freightAmount }}</i>
         </li>
         <li class="real-pay">
           <span>实付款：</span>
-          <i>￥{{oderShopSkuInfo.shopAllAmount}}</i>
+          <i>￥{{ oderShopSkuInfo.shopAllAmount }}</i>
         </li>
       </ul>
     </section>
     <div class="pay-btn">
       <div class="pay-count">
         <span>
-          共{{orderForm.skuCount}}件商品，小计：
-          <i>￥{{ orderForm.allAmount}}</i>
+          共{{ orderForm.skuCount }}件商品，小计：
+          <i>￥{{ orderForm.allAmount }}</i>
         </span>
       </div>
-      <van-button type="danger" @click="handleSubmitOrder" size="large">提交订单</van-button>
+      <van-button type="danger" @click="handleSubmitOrder" size="large"
+        >提交订单</van-button
+      >
     </div>
 
-    <van-popup v-model="show" round position="bottom" :style="{ height: '10%' }"></van-popup>
+    <van-popup
+      v-model="show"
+      round
+      position="bottom"
+      :style="{ height: '10%' }"
+    ></van-popup>
     <vue-pickers
       :show="show"
       :columns="columns"
@@ -80,36 +96,36 @@
 
 <script>
 export default {
-  name: 'ConfirmOrder',
-  data () {
+  name: "ConfirmOrder",
+  data() {
     return {
       orderForm: {},
       columns: 1,
-      orderNo: '',
+      orderNo: "",
       cartMode: true, // 购物车的模式，true 是显示出编辑按钮 false 是显示完成按钮,默认是false;
       defaultData: [
         {
-          text: 'CoinPay',
-          value: 'CoinPay'
+          text: "CoinPay",
+          value: "CoinPay"
         }
       ],
       pickData: {
         data1: [
           {
-            text: 'CoinPay',
-            value: 'CoinPay'
+            text: "CoinPay",
+            value: "CoinPay"
           }
         ]
       },
       show: false
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
 
   methods: {
-    initData () {
+    initData() {
       let paramsObj = {
         skuInfoForm: {
           quantity: this.$route.query.quantity,
@@ -118,57 +134,57 @@ export default {
         cartItemIds: this.$route.query.selectedGoodsId,
         userAddrId: this.$route.query.userAddrId
           ? this.$route.query.userAddrId
-          : ''
-      }
+          : ""
+      };
       if (this.$route.query.selectedGoodsId) {
-        paramsObj.skuInfoForm = null
+        paramsObj.skuInfoForm = null;
       }
       this.$http.post(`/api/order/checkout`, paramsObj).then(response => {
-        this.orderForm = response.data.content
-      })
+        this.orderForm = response.data.content;
+      });
     },
-    handleSubmitOrder () {
+    handleSubmitOrder() {
       if (!this.orderForm.fullAddress) {
         this.$toast({
           mask: false,
           duration: 2000,
-          message: '请选择收货地址！'
-        })
-        return
+          message: "请选择收货地址！"
+        });
+        return;
       }
       this.$toast.loading({
         mask: true,
         duration: 0, // 持续展示 toast
         forbidClick: true, // 禁用背景点击
-        loadingType: 'spinner',
-        message: '订单提交中...'
-      })
+        loadingType: "spinner",
+        message: "订单提交中..."
+      });
       this.$http.post(`/api/order/submit`, this.orderForm).then(response => {
-        this.orderNo = response.data.content.orderNo
-        this.show = true
-        this.$toast.clear()
-      })
+        this.orderNo = response.data.content.orderNo;
+        this.show = true;
+        this.$toast.clear();
+      });
     },
-    close () {
-      this.show = false
+    close() {
+      this.show = false;
     },
-    confirmFn () {
-      this.show = false
+    confirmFn() {
+      this.show = false;
       this.$toast.loading({
         mask: true,
         duration: 1000, // 持续展示 toast
         forbidClick: true, // 禁用背景点击
-        loadingType: 'spinner',
-        message: '支付中...'
-      })
+        loadingType: "spinner",
+        message: "支付中..."
+      });
       this.$http
         .get(`/api/coinPay/testPay?orderNo=${this.orderNo}`)
         .then(response => {
-          this.$toast.clear()
-          this.$router.push('/order/transactionDetails')
-        })
+          this.$toast.clear();
+          this.$router.push("/order/transactionDetails");
+        });
     },
-    handleToChooseAddress () {
+    handleToChooseAddress() {
       this.$router.push({
         path: `/order/chooseAddress`,
         query: {
@@ -176,10 +192,10 @@ export default {
           cartItemIds: this.$route.query.selectedGoodsId,
           skuId: this.$route.query.skuId
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -339,7 +355,7 @@ export default {
         font-weight: 700;
       }
     }
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;

@@ -22,31 +22,43 @@
           </div>
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password" placeholder="设置登录密码" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password"
+            placeholder="设置登录密码"
+          />
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password1" placeholder="重复登录密码" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password1"
+            placeholder="重复登录密码"
+          />
         </li>
       </ul>
     </section>
 
     <div class="address-btn">
-      <van-button type="danger" @click="handleSaveChangePassword" size="large">保存</van-button>
+      <van-button type="danger" @click="handleSaveChangePassword" size="large"
+        >保存</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'changePassword',
-  data () {
+  name: "changePassword",
+  data() {
     return {
       userInfo: this.$route.query
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    handleSaveChangePassword () {
+    handleSaveChangePassword() {
       if (this.userInfo.password === this.userInfo.password1) {
         this.$http
           .post(`/api/user/updatePassword`, this.userInfo)
@@ -54,20 +66,20 @@ export default {
             this.$toast({
               mask: false,
               duration: 1000,
-              message: response.data.msg || '修改密码成功！'
-            })
-            this.$router.go(-1)
-          })
+              message: response.data.msg || "修改密码成功！"
+            });
+            this.$router.go(-1);
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '两次输入的密码不一致！'
-        })
+          message: "两次输入的密码不一致！"
+        });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -88,14 +100,14 @@ export default {
         align-items: flex-start;
         flex-direction: column;
         padding: 10px 0;
-        /deep/ .van-cell {
+        ::deep .van-cell {
           padding-left: 0;
         }
-        /deep/ .van-cell__title span {
+        ::deep .van-cell__title span {
           font-size: 14px;
           color: #3a3a3a;
         }
-        /deep/ .van-cell:not(:last-child)::after {
+        ::deep .van-cell:not(:last-child)::after {
           border: none;
         }
         .address-name {
@@ -112,14 +124,14 @@ export default {
     width: 92%;
     color: #fff;
 
-    /deep/ .van-button--large {
+    ::deep .van-button--large {
       height: 44px;
       line-height: 44px;
     }
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
     }
-    /deep/ .van-button__text {
+    ::deep .van-button__text {
       color: #fff;
     }
   }

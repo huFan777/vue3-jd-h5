@@ -6,17 +6,23 @@
       </span>
       <i>商城消息</i>
     </cm-header>
-    <div class="swipe-message" v-for="(message,index) in messageArrays" :key="index">
+    <div
+      class="swipe-message"
+      v-for="(message, index) in messageArrays"
+      :key="index"
+    >
       <van-swipe-cell :right-width="60" :on-close="onClose" :name="message.id">
         <section class="message-card">
           <ul class="message-list">
             <li class="message-item">
               <div class="item-title">
-                <van-tag color="#91C95B" v-if="message.title === '订单通知'">{{message.title}}</van-tag>
-                <van-tag color="#FFBF43" v-else>{{message.title}}</van-tag>
-                <span>{{message.createTime}}</span>
+                <van-tag color="#91C95B" v-if="message.title === '订单通知'">{{
+                  message.title
+                }}</van-tag>
+                <van-tag color="#FFBF43" v-else>{{ message.title }}</van-tag>
+                <span>{{ message.createTime }}</span>
               </div>
-              <div class="message-content">{{message.content}}</div>
+              <div class="message-content">{{ message.content }}</div>
             </li>
           </ul>
         </section>
@@ -30,38 +36,38 @@
 
 <script>
 export default {
-  name: 'mallMessage',
-  data () {
+  name: "mallMessage",
+  data() {
     return {
       messageArrays: []
-    }
+    };
   },
-  created () {
-    this.inintData()
+  created() {
+    this.inintData();
   },
   methods: {
-    inintData () {
+    inintData() {
       this.$http
         .post(`/api/message/messageList`, { type: this.$route.query.type })
         .then(response => {
-          this.messageArrays = response.data.content
-        })
+          this.messageArrays = response.data.content;
+        });
     },
-    onClose (clickPosition, instance, detail) {
+    onClose(clickPosition, instance, detail) {
       this.$http
         .post(`/api/message/updateMessage`, { ids: [detail.name], type: 1 })
         .then(response => {
           this.$toast({
             mask: false,
             duration: 1000,
-            message: '删除成功！'
-          })
-        })
-      instance.close()
-      this.inintData()
+            message: "删除成功！"
+          });
+        });
+      instance.close();
+      this.inintData();
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -101,12 +107,12 @@ export default {
         }
       }
     }
-    /deep/ .van-swipe-cell {
+    ::deep .van-swipe-cell {
       border-radius: 0 8px 8px 0;
       -webkit-backface-visibility: hidden;
       -webkit-transform: translate3d(0, 0, 0);
     }
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       height: 100%;
     }
   }

@@ -1,21 +1,32 @@
 <template>
   <div class="home">
-    <header class="home-header" :class="{'active' : headerActive}">
+    <header class="home-header" :class="{ active: headerActive }">
       <div class="header-search">
         <svg-icon class="search-icon" icon-class="search"></svg-icon>
-        <router-link tag="span" class="search-title" to="./search">推荐搜索 关键词</router-link>
+        <router-link tag="span" class="search-title" to="./search"
+          >推荐搜索 关键词</router-link
+        >
       </div>
       <!-- <svg-icon class="customer-service-icon" icon-class="customer-service"></svg-icon> -->
     </header>
-    <van-swipe class="swiper-carousel" :autoplay="3000" :show-indicators="false">
+    <van-swipe
+      class="swiper-carousel"
+      :autoplay="3000"
+      :show-indicators="false"
+    >
       <van-swipe-item v-for="(image, index) in images" :key="index">
         <img class="lazy_img" @click="handleClick" v-lazy="image.imageUrl" />
       </van-swipe-item>
     </van-swipe>
     <div class="swiper-cls">
       <swiper :options="swiperOption" v-if="adList.length">
-        <swiper-slide v-for="(img ,index) in adList" :key="index">
-          <img class="slide_img" @click="handleClick" v-if="img.imageUrl" :src="img.imageUrl" />
+        <swiper-slide v-for="(img, index) in adList" :key="index">
+          <img
+            class="slide_img"
+            @click="handleClick"
+            v-if="img.imageUrl"
+            :src="img.imageUrl"
+          />
         </swiper-slide>
       </swiper>
       <img class="radian-img" src="../../assets/image/radian.png" />
@@ -29,7 +40,10 @@
       </ul>-->
       <ul class="tags-content">
         <router-link tag="li" class="tags-item" to="./index">
-          <svg-icon class="tags-icon" icon-class="chain-cat-boutique"></svg-icon>
+          <svg-icon
+            class="tags-icon"
+            icon-class="chain-cat-boutique"
+          ></svg-icon>
           <span class="item-text">链猫精品</span>
         </router-link>
         <router-link tag="li" class="tags-item" to="./index">
@@ -60,13 +74,19 @@
               <span class="eight-time">8点场</span>
               <van-count-down :time="timeData" class="time-count-down">
                 <template v-slot="timeData">
-                  <span class="time-item" v-if="timeData.hours<10">{{ '0'+timeData.hours }}</span>
+                  <span class="time-item" v-if="timeData.hours < 10">{{
+                    "0" + timeData.hours
+                  }}</span>
                   <span class="time-item" v-else>{{ timeData.hours }}</span>
                   <i class="tow-point">:</i>
-                  <span class="time-item" v-if="timeData.minutes<10">{{'0'+ timeData.minutes }}</span>
+                  <span class="time-item" v-if="timeData.minutes < 10">{{
+                    "0" + timeData.minutes
+                  }}</span>
                   <span class="time-item" v-else>{{ timeData.minutes }}</span>
                   <i class="tow-point">:</i>
-                  <span class="time-item" v-if="timeData.seconds<10">{{ '0'+timeData.seconds }}</span>
+                  <span class="time-item" v-if="timeData.seconds < 10">{{
+                    "0" + timeData.seconds
+                  }}</span>
                   <span class="time-item" v-else>{{ timeData.seconds }}</span>
                 </template>
               </van-count-down>
@@ -180,28 +200,34 @@
           >
             <div>
               <van-tab
-                v-for="(list,index) in catList"
+                v-for="(list, index) in catList"
                 :title="list.describe"
                 :name="list.type"
                 :key="index"
               >
                 <div slot="title" class="slot-title">
-                  <b class="tab-title">{{list.title}}</b>
-                  <span class="tab-name">{{list.describe}}</span>
+                  <b class="tab-title">{{ list.title }}</b>
+                  <span class="tab-name">{{ list.describe }}</span>
                 </div>
                 <section class="goods-box">
                   <ul class="goods-content">
-                    <li class="goods-item" v-for="(item,index) in tabItemLists" :key="index">
+                    <li
+                      class="goods-item"
+                      v-for="(item, index) in tabItemLists"
+                      :key="index"
+                    >
                       <div @click="handleToProductDetail(item.productId)">
                         <img class="lazy-img" v-lazy="item.productMainImage" />
                       </div>
                       <div class="goods-layout">
-                        <div class="goods-title">{{item.productName}}</div>
-                        <span class="goods-div">{{item.labels}}</span>
+                        <div class="goods-title">{{ item.productName }}</div>
+                        <span class="goods-div">{{ item.labels }}</span>
                         <div class="goods-desc">
                           <span class="goods-price">
-                            <b>￥{{item.productCnyPrice}}</b>
-                            <span v-if="item.calculate" class="force-value">{{item.calculate}}倍算力值</span>
+                            <b>￥{{ item.productCnyPrice }}</b>
+                            <span v-if="item.calculate" class="force-value"
+                              >{{ item.calculate }}倍算力值</span
+                            >
                           </span>
                         </div>
                       </div>
@@ -227,8 +253,8 @@
 
 <script>
 export default {
-  name: 'home',
-  data () {
+  name: "home",
+  data() {
     return {
       iconList: [],
       active: 0,
@@ -248,69 +274,69 @@ export default {
         notNextTick: true,
         observer: true, // 修改swiper自己或子元素时，自动初始化swiper
         observeParents: true, // 修改swiper的父元素时，自动初始化swiper
-        direction: 'horizontal', // 水平方向移动
+        direction: "horizontal", // 水平方向移动
         setWrapperSize: true, // Swiper使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽或高，在对flexbox布局的支持不是很好的浏览器中可能需要用到。
         height: window.innerHeight, // 高度设置，占满设备高度
         slidesPerView: 2 // 设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
       }
-    }
+    };
   },
-  activated () {
-    this.initData()
-    this.handleTabChange()
+  activated() {
+    this.initData();
+    this.handleTabChange();
   },
   watch: {
-    active () {
-      this.tabItemLists = []
+    active() {
+      this.tabItemLists = [];
     }
   },
-  mounted () {
-    this.$eventBus.$emit('changeTag', 0)
-    this.setHomeWrapperHeight()
+  mounted() {
+    this.$eventBus.$emit("changeTag", 0);
+    this.setHomeWrapperHeight();
   },
   methods: {
     // 当滑块滑动到底部的时候。
-    handleScrollToEnd () {
-      this.pageNum++
-      this.handleTabChange()
+    handleScrollToEnd() {
+      this.pageNum++;
+      this.handleTabChange();
     },
     // 动态设置searc-wrap的高
-    setHomeWrapperHeight () {
-      let $screenHeight = document.documentElement.clientHeight
-      this.$refs.homeWrapper.style.height = $screenHeight - 100 + 'px'
+    setHomeWrapperHeight() {
+      let $screenHeight = document.documentElement.clientHeight;
+      this.$refs.homeWrapper.style.height = $screenHeight - 100 + "px";
     },
-    handleToProductDetail (productId) {
+    handleToProductDetail(productId) {
       this.$router.push({
-        path: '/product/index',
+        path: "/product/index",
         query: { productId: productId }
-      })
+      });
     },
-    initData () {
+    initData() {
       this.$http.get(`api/index`).then(response => {
-        this.images = response.data.content.bannerList
-        this.adList = response.data.content.adList
-        this.catList = response.data.content.catList
-        this.iconList = response.data.content.iconList
-      })
+        this.images = response.data.content.bannerList;
+        this.adList = response.data.content.adList;
+        this.catList = response.data.content.catList;
+        this.iconList = response.data.content.iconList;
+      });
     },
-    handleTabChange () {
-      this.loading = true
+    handleTabChange() {
+      this.loading = true;
       this.$http
         .get(
           `/api/index/choiceness?type=${this.active}&clientType=0&pageNum=${this.pageNum}&pageSize=20`
         )
         .then(response => {
-          this.loading = false
+          this.loading = false;
           if (response) {
-            this.tabItemLists.push(...response.data.content)
+            this.tabItemLists.push(...response.data.content);
           }
-        })
+        });
     },
-    handleClick (linkUrl) {
-      this.$router.push('/product/index')
+    handleClick(linkUrl) {
+      this.$router.push("/product/index");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -638,10 +664,10 @@ export default {
   }
   .content-tabs {
     padding-top: 10px;
-    /deep/ .van-tabs__line {
+    ::deep .van-tabs__line {
       bottom: 23px;
     }
-    /deep/ .van-tabs--line .van-tabs__wrap {
+    ::deep .van-tabs--line .van-tabs__wrap {
       height: 56px;
     }
     .slot-title {

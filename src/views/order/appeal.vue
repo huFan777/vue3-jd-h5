@@ -1,6 +1,6 @@
 <template>
   <div class="appeal-page">
-     <cm-header>
+    <cm-header>
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="white-btn"></svg-icon>
       </span>
@@ -10,38 +10,51 @@
       <li class="radio-all">
         <div class="store-info">
           <img v-lazy="appealObject.logoUrl" class="header-img" />
-          <span>{{appealObject.shopName}}</span>
+          <span>{{ appealObject.shopName }}</span>
         </div>
       </li>
       <van-radio-group class="order-list" v-model="radios" @change="change">
         <ul v-for="(item, i) in appealObject.appOrderProductVos" :key="i">
           <div class="order-info">
             <li class="check-item">
-              <van-radio :key="i" checked-color="#91C95B" :name="item.id"></van-radio>
+              <van-radio
+                :key="i"
+                checked-color="#91C95B"
+                :name="item.id"
+              ></van-radio>
             </li>
             <img v-lazy="item.productMainUrl" />
             <div class="order-detail">
               <p class="info-one">
-                <span class="product-name">{{item.productName}}</span>
-                <b>￥{{item.productAmount}}</b>
+                <span class="product-name">{{ item.productName }}</span>
+                <b>￥{{ item.productAmount }}</b>
               </p>
               <p class="info-two">
-                <span>{{item.fullName}}</span>
-                <span>×{{item.quantity}}</span>
+                <span>{{ item.fullName }}</span>
+                <span>×{{ item.quantity }}</span>
               </p>
             </div>
           </div>
         </ul>
         <div class="order-total">
-          <label>共{{appealObject.quantity}}件商品，小计：</label>
-          <b style="color:#EC3924">￥{{appealObject.amount}}</b>
+          <label>共{{ appealObject.quantity }}件商品，小计：</label>
+          <b style="color:#EC3924">￥{{ appealObject.amount }}</b>
         </div>
       </van-radio-group>
     </section>
     <section class="info-form">
       <van-cell-group>
-        <van-field v-model="appealForms.name" clearable label="用户名" placeholder="请输入姓名" />
-        <van-field v-model="appealForms.phone" label="手机号" placeholder="请输入手机号" />
+        <van-field
+          v-model="appealForms.name"
+          clearable
+          label="用户名"
+          placeholder="请输入姓名"
+        />
+        <van-field
+          v-model="appealForms.phone"
+          label="手机号"
+          placeholder="请输入手机号"
+        />
         <van-field
           v-model="appealForms.context"
           :autosize="{ minHeight: 150 }"
@@ -49,60 +62,71 @@
           label="申诉内容"
           placeholder="请输入申诉内容"
         />
-        <van-field label-width="200px" disabled label="图片上传（最多可上传5张）" />
+        <van-field
+          label-width="200px"
+          disabled
+          label="图片上传（最多可上传5张）"
+        />
       </van-cell-group>
-      <van-uploader multiple :after-read="afterRead" v-model="fileList" :max-count="5" />
+      <van-uploader
+        multiple
+        :after-read="afterRead"
+        v-model="fileList"
+        :max-count="5"
+      />
     </section>
     <div class="pay-btn">
-      <van-button type="danger" @click="handleSubmitAppeal" size="large">提交</van-button>
+      <van-button type="danger" @click="handleSubmitAppeal" size="large"
+        >提交</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Appeal',
-  data () {
+  name: "Appeal",
+  data() {
     return {
-      username: '',
-      phone: '',
+      username: "",
+      phone: "",
       radios: {},
       appealForms: {
-        context: '',
+        context: "",
         imagUrls: []
       },
       fileList: [],
       appealObject: {}
-    }
+    };
   },
-  created () {
-    this.appealObject = this.$route.params
+  created() {
+    this.appealObject = this.$route.params;
     this.appealObject.appOrderProductVos = this.appealObject.appOrderProductVos.filter(
       it => it.appealFlag === 0
-    )
+    );
   },
   methods: {
-    change (id) {
-      this.appealForms.id = id
+    change(id) {
+      this.appealForms.id = id;
     },
-    afterRead (res) {
-      let formData = new FormData()
-      formData.append('file', res.file)
+    afterRead(res) {
+      let formData = new FormData();
+      formData.append("file", res.file);
       this.$http.post(`/api/order/upload/image`, formData).then(response => {
         if (response.data.code === 0) {
-          this.appealForms.imagUrls.push(...response.data.content.imageUrls)
+          this.appealForms.imagUrls.push(...response.data.content.imageUrls);
         }
-      })
+      });
     },
-    handleSubmitAppeal () {
-      this.appealForms.orderNo = this.appealObject.orderNo
+    handleSubmitAppeal() {
+      this.appealForms.orderNo = this.appealObject.orderNo;
       if (!this.appealForms.id) {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请选中你要申诉的商品！'
-        })
-        return
+          message: "请选中你要申诉的商品！"
+        });
+        return;
       }
 
       this.$http
@@ -111,13 +135,13 @@ export default {
           this.$toast({
             mask: false,
             duration: 1000,
-            message: '商品申诉成功！'
-          })
-          this.$router.go(-1)
-        })
+            message: "商品申诉成功！"
+          });
+          this.$router.go(-1);
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -131,7 +155,7 @@ export default {
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
     padding: 10px;
     // margin-top: 20px;
-    /deep/ .van-radio {
+    ::deep .van-radio {
       padding-left: 0;
       .van-radio__label {
         font-size: 13px;
@@ -208,7 +232,7 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /deep/ .van-stepper__input {
+            ::deep .van-stepper__input {
               width: 31px;
               height: 22px;
               padding: 0;
@@ -217,14 +241,14 @@ export default {
               background-color: transparent;
               border: 1px solid #dbdbdb;
             }
-            /deep/ .van-stepper__plus {
+            ::deep .van-stepper__plus {
               border: 1px solid #dbdbdb;
               background-color: transparent;
               width: 16px;
               height: 22px;
               border-radius: 0;
             }
-            /deep/ .van-stepper__minus {
+            ::deep .van-stepper__minus {
               border-radius: 0;
               border: 1px solid #dbdbdb;
               background-color: transparent;
@@ -249,11 +273,11 @@ export default {
     margin-top: 20px;
     border-radius: 5px;
     background-color: #fff;
-    /deep/ .van-cell {
+    ::deep .van-cell {
       padding-left: 0;
       padding-right: 0;
     }
-    /deep/ .van-image img {
+    ::deep .van-image img {
       border-radius: 8px;
     }
   }
@@ -262,11 +286,11 @@ export default {
     padding: 0 16px;
     padding-top: 50px;
     padding-bottom: 10px;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;
-         border-radius: 4px;
+      border-radius: 4px;
     }
   }
 }

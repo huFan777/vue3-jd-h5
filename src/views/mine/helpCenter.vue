@@ -1,6 +1,6 @@
 <template>
   <div class="help-center">
-     <cm-header>
+    <cm-header>
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="green-btn"></svg-icon>
       </span>
@@ -73,15 +73,15 @@
 
 <script>
 export default {
-  name: 'helpCenter',
-  data () {
+  name: "helpCenter",
+  data() {
     return {
-      activeNames: ['1']
-    }
+      activeNames: ["1"]
+    };
   },
-  created () {},
+  created() {},
   methods: {}
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -142,22 +142,22 @@ export default {
         padding-bottom: 22px;
         .collapse-box {
           width: 100%;
-          /deep/ .van-collapse-item__content {
+          ::deep .van-collapse-item__content {
             padding-left: 0;
             padding-right: 0;
           }
-          /deep/ .van-cell {
+          ::deep .van-cell {
             padding-left: 0;
             padding-right: 0;
           }
-          /deep/ .van-cell:not(:last-child)::after {
+          ::deep .van-cell:not(:last-child)::after {
             border: none;
           }
-          /deep/ .van-cell__title {
+          ::deep .van-cell__title {
             color: #3a3a3a;
             font-size: 17px;
           }
-          /deep/ .van-collapse-item__content {
+          ::deep .van-collapse-item__content {
             padding: 0;
             .help-item {
               padding: 5px 0;
@@ -166,7 +166,7 @@ export default {
             }
           }
         }
-        /deep/ .van-hairline--top-bottom::after {
+        ::deep .van-hairline--top-bottom::after {
           display: none;
         }
         .item-info {

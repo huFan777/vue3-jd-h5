@@ -7,10 +7,10 @@
       <i>查看物流</i>
     </cm-header>
 
-    <section class="order-card" v-if="logisticsInfo.jdFlag==0">
+    <section class="order-card" v-if="logisticsInfo.jdFlag == 0">
       <ul class="order-list">
         <li class="order-info">
-          <img src="../../assets/image/logistics/jd-logist-logo.png">
+          <img src="../../assets/image/logistics/jd-logist-logo.png" />
           <div class="order-detail">
             <!-- 0代表是京东物流 -->
             <div class="info-content">
@@ -19,7 +19,7 @@
                   <label>目的地：</label>
                 </span>
                 <span>
-                  <i>{{logisticsInfo.address}}</i>
+                  <i>{{ logisticsInfo.address }}</i>
                 </span>
               </p>
             </div>
@@ -30,11 +30,14 @@
     <section v-else class="order-card">
       <ul class="order-list">
         <li class="order-info">
-          <img class="logist-logo" src="@/assets/image/logistics/self-logist-logo.png" />
+          <img
+            class="logist-logo"
+            src="@/assets/image/logistics/self-logist-logo.png"
+          />
           <div class="order-detail">
             <!-- 1代表是自己的物流 -->
             <p class="info-one">
-              <span>【{{logisticsInfo.logisticsId}}】</span>
+              <span>【{{ logisticsInfo.logisticsId }}】</span>
             </p>
             <div class="info-content">
               <p class="info-two">
@@ -60,19 +63,19 @@
     </section>
     <section class="logistics-status">
       <van-steps direction="vertical" active-color="#EC3924" :active="0">
-        <van-step v-for="(trace,index) in logisticsInfo.traces" :key="index">
+        <van-step v-for="(trace, index) in logisticsInfo.traces" :key="index">
           <i slot="active-icon">
             <span class="logistics-time">
               <!-- {{trace.acceptTime}} -->
-              {{formatDate(trace.acceptTime).split('-')[0]}}
+              {{ formatDate(trace.acceptTime).split("-")[0] }}
               <br />
-              {{formatDate(trace.acceptTime).split('-')[1]}}
+              {{ formatDate(trace.acceptTime).split("-")[1] }}
             </span>
             <svg-icon icon-class="correct"></svg-icon>
           </i>
           <div class="active-text">
-            <h3>{{trace.remark}}</h3>
-            <p>{{trace.acceptStation}}</p>
+            <h3>{{ trace.remark }}</h3>
+            <p>{{ trace.acceptStation }}</p>
           </div>
         </van-step>
 
@@ -151,38 +154,38 @@
 
 <script>
 export default {
-  name: 'ViewLogistics',
-  data () {
+  name: "ViewLogistics",
+  data() {
     return {
       logisticsInfo: {}
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
   methods: {
-    initData () {
+    initData() {
       this.$http
         .post(`/api/order/expressInquiry?orderNd=${this.$route.query.orderNo}`)
         .then(response => {
-          this.logisticsInfo = response.data.content
-        })
+          this.logisticsInfo = response.data.content;
+        });
     },
-    formatDate (inputTime) {
-      inputTime = inputTime.replace(/-/g, '/')
-      var date = new Date(inputTime)
-      var m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      var d = date.getDate()
-      d = d < 10 ? '0' + d : d
-      var h = date.getHours()
-      h = h < 10 ? '0' + h : h
-      var minute = date.getMinutes()
-      minute = minute < 10 ? '0' + minute : minute
-      return m + '/' + d + '-' + h + ':' + minute
+    formatDate(inputTime) {
+      inputTime = inputTime.replace(/-/g, "/");
+      var date = new Date(inputTime);
+      var m = date.getMonth() + 1;
+      m = m < 10 ? "0" + m : m;
+      var d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      var h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      var minute = date.getMinutes();
+      minute = minute < 10 ? "0" + minute : minute;
+      return m + "/" + d + "-" + h + ":" + minute;
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -270,10 +273,10 @@ export default {
       flex-wrap: wrap;
       width: 30px;
     }
-    /deep/ .van-steps__items {
+    ::deep .van-steps__items {
       padding-left: 30px;
     }
-    /deep/ .van-step__title {
+    ::deep .van-step__title {
       padding-left: 12px;
       .active-text {
         color: #ec3924;

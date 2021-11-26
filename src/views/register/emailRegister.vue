@@ -4,7 +4,9 @@
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="gray-btn"></svg-icon>
       </span>
-      <span slot="right" @click="$router.push('/register/phoneRegister')">手机注册</span>
+      <span slot="right" @click="$router.push('/register/phoneRegister')"
+        >手机注册</span
+      >
     </cm-header>
 
     <div class="mall-logo">
@@ -15,7 +17,11 @@
       <p class="number-tips">请输入4位数验证码</p>
       <van-cell-group class="info-list">
         <ValidationObserver ref="observer" tag="form">
-          <ValidationProvider name="email" v-slot="{ errors }" rules="required|email">
+          <ValidationProvider
+            name="email"
+            v-slot="{ errors }"
+            rules="required|email"
+          >
             <van-field
               v-model="emailRegister.email"
               :error-message="errors[0]"
@@ -24,7 +30,10 @@
               placeholder="请输入邮箱"
             />
           </ValidationProvider>
-          <ValidationProvider v-slot="{ errors }" :rules="{regex:/^\d{4}$/,required:true}">
+          <ValidationProvider
+            v-slot="{ errors }"
+            :rules="{ regex: /^\d{4}$/, required: true }"
+          >
             <van-field
               v-model="emailRegister.verifyCode"
               :error-message="errors[0]"
@@ -37,7 +46,8 @@
                 size="small"
                 type="default"
                 @click="handleGetVerifyCode"
-              >获取验证码</van-button>
+                >获取验证码</van-button
+              >
             </van-field>
           </ValidationProvider>
           <van-field class="temp-empty" />
@@ -56,21 +66,21 @@
 
 <script>
 export default {
-  name: 'emailRegister',
-  data () {
+  name: "emailRegister",
+  data() {
     return {
       emailRegister: {}
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    async goToNextStep () {
-      const isValid = await this.$refs.observer.validate()
+    async goToNextStep() {
+      const isValid = await this.$refs.observer.validate();
       if (isValid) {
         this.$router.push({
-          path: '/register/emailRegisterTwo',
+          path: "/register/emailRegisterTwo",
           query: this.emailRegister
-        })
+        });
       }
       // if (!this.emailRegister.email || !this.emailRegister.verifyCode) {
       // if (!isValid) {
@@ -85,33 +95,33 @@ export default {
       //   });
       // }
     },
-    handleGetVerifyCode () {
+    handleGetVerifyCode() {
       if (!this.emailRegister.email) {
         this.$toast({
           mask: false,
-          message: '邮箱不能为空！'
-        })
-        return
+          message: "邮箱不能为空！"
+        });
+        return;
       }
-      this.emailRegister.type = 1
+      this.emailRegister.type = 1;
       this.$http
         .post(`/api/user/getVerifyCode`, this.emailRegister)
         .then(response => {
           if (response.data.code === 0) {
             this.$toast({
               mask: false,
-              message: '发送成功！'
-            })
+              message: "发送成功！"
+            });
           } else {
             this.$toast({
               mask: false,
               message: response.data.msg
-            })
+            });
           }
-        })
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -140,16 +150,16 @@ export default {
       padding-bottom: 32px;
       font-size: 11px;
     }
-    /deep/ .van-hairline--top-bottom::after {
+    ::deep .van-hairline--top-bottom::after {
       display: none;
     }
-    /deep/ .temp-empty {
+    ::deep .temp-empty {
       display: none;
     }
-    /deep/ .van-cell-group {
+    ::deep .van-cell-group {
       background-color: transparent;
     }
-    /deep/ .van-cell {
+    ::deep .van-cell {
       background-color: transparent;
       padding-left: 0;
       padding-right: 0;

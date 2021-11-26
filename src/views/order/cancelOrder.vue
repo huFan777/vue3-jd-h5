@@ -1,7 +1,6 @@
 <template>
   <div class="cancel-order">
-
-       <cm-header>
+    <cm-header>
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="white-btn"></svg-icon>
       </span>
@@ -20,20 +19,60 @@
       <div class="item-content">
         <van-radio-group v-model="cancelReason">
           <van-cell-group>
-            <van-cell title="想了想，我不想要了" clickable @click="cancelReason = '想了想，我不想要了'">
-              <van-radio slot="right-icon" checked-color="#91C95B" name="想了想，我不想要了" />
+            <van-cell
+              title="想了想，我不想要了"
+              clickable
+              @click="cancelReason = '想了想，我不想要了'"
+            >
+              <van-radio
+                slot="right-icon"
+                checked-color="#91C95B"
+                name="想了想，我不想要了"
+              />
             </van-cell>
-            <van-cell title="买多了/买错了" clickable @click="cancelReason = '买多了/买错了'">
-              <van-radio slot="right-icon" checked-color="#91C95B" name="买多了/买错了" />
+            <van-cell
+              title="买多了/买错了"
+              clickable
+              @click="cancelReason = '买多了/买错了'"
+            >
+              <van-radio
+                slot="right-icon"
+                checked-color="#91C95B"
+                name="买多了/买错了"
+              />
             </van-cell>
-            <van-cell title="支付遇到问题" clickable @click="cancelReason = '支付遇到问题'">
-              <van-radio slot="right-icon" checked-color="#91C95B" name="支付遇到问题" />
+            <van-cell
+              title="支付遇到问题"
+              clickable
+              @click="cancelReason = '支付遇到问题'"
+            >
+              <van-radio
+                slot="right-icon"
+                checked-color="#91C95B"
+                name="支付遇到问题"
+              />
             </van-cell>
-            <van-cell title="地址填写错误" clickable @click="cancelReason = '地址填写错误'">
-              <van-radio slot="right-icon" checked-color="#91C95B" name="地址填写错误" />
+            <van-cell
+              title="地址填写错误"
+              clickable
+              @click="cancelReason = '地址填写错误'"
+            >
+              <van-radio
+                slot="right-icon"
+                checked-color="#91C95B"
+                name="地址填写错误"
+              />
             </van-cell>
-            <van-cell title="其他原因" clickable @click="cancelReason = '其他原因'">
-              <van-radio slot="right-icon" checked-color="#91C95B" name="其他原因" />
+            <van-cell
+              title="其他原因"
+              clickable
+              @click="cancelReason = '其他原因'"
+            >
+              <van-radio
+                slot="right-icon"
+                checked-color="#91C95B"
+                name="其他原因"
+              />
             </van-cell>
           </van-cell-group>
         </van-radio-group>
@@ -45,31 +84,33 @@
           :autosize="{ maxHeight: 200, minHeight: 120 }"
           placeholder="请输入原因"
         >
-          <span slot="right-icon">{{remnant}}/100</span>
+          <span slot="right-icon">{{ remnant }}/100</span>
         </van-field>
       </div>
     </section>
     <div class="pay-btn">
-      <van-button type="danger" @click="handleSubmitOrder" size="large">提交</van-button>
+      <van-button type="danger" @click="handleSubmitOrder" size="large"
+        >提交</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CancelOrder',
-  data () {
+  name: "CancelOrder",
+  data() {
     return {
-      cancelReason: '',
-      otherCancelReason: '',
+      cancelReason: "",
+      otherCancelReason: "",
       remnant: 0
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    handleSubmitOrder () {
-      if (this.cancelReason === '其他原因') {
-        this.cancelReason = this.otherCancelReason
+    handleSubmitOrder() {
+      if (this.cancelReason === "其他原因") {
+        this.cancelReason = this.otherCancelReason;
       }
       this.$http
         .post(`/api/order/cancel`, {
@@ -80,26 +121,26 @@ export default {
           this.$toast({
             mask: false,
             duration: 1000,
-            message: '提交成功！'
-          })
-          this.$router.go(-1)
-        })
+            message: "提交成功！"
+          });
+          this.$router.go(-1);
+        });
     },
-    descInput (value) {
-      var txtVal = value.length
-      this.remnant = 100 - txtVal
+    descInput(value) {
+      var txtVal = value.length;
+      this.remnant = 100 - txtVal;
       if (this.remnant < 0) {
-        this.remnant = 0
+        this.remnant = 0;
       }
       if (100 - txtVal < 0) {
-        this.otherCancelReason = value.slice(0, 100)
-        this.isDisInput = true
+        this.otherCancelReason = value.slice(0, 100);
+        this.isDisInput = true;
       } else {
-        this.isDisInput = false
+        this.isDisInput = false;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -142,18 +183,18 @@ export default {
     border-radius: 8px;
     background-color: white;
     .item-content {
-      /deep/ .van-cell:not(:last-child)::after {
+      ::deep .van-cell:not(:last-child)::after {
         display: none;
       }
-      /deep/ .van-hairline--top-bottom::after {
+      ::deep .van-hairline--top-bottom::after {
         display: none;
       }
-      /deep/ .van-field__right-icon {
+      ::deep .van-field__right-icon {
         position: absolute;
         bottom: 5px;
         right: 0;
       }
-      /deep/ .van-cell {
+      ::deep .van-cell {
         padding: 10px 0;
       }
     }
@@ -167,11 +208,11 @@ export default {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;
-         border-radius: 4px;
+      border-radius: 4px;
     }
   }
 }

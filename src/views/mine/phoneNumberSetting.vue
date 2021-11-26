@@ -1,6 +1,6 @@
 <template>
   <div class="phone-number-setting">
-     <cm-header>
+    <cm-header>
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="green-btn"></svg-icon>
       </span>
@@ -10,7 +10,11 @@
       <ul class="address-list">
         <li class="address-item">
           <router-link tag="div" class="address-name" to="/mine/countryRegion">
-            <van-field v-model="userInfo.areaCode" disabled placeholder="国家/地区" />
+            <van-field
+              v-model="userInfo.areaCode"
+              disabled
+              placeholder="国家/地区"
+            />
             <div>
               <svg-icon icon-class="arrow"></svg-icon>
             </div>
@@ -20,25 +24,43 @@
           <div class="address-name">
             <van-field v-model="userInfo.mobile" placeholder="请输入手机号" />
             <div class="verification-code">
-              <van-tag color="#3C96FF" @click="handleGetVerifyCode" plain>获取验证码</van-tag>
+              <van-tag color="#3C96FF" @click="handleGetVerifyCode" plain
+                >获取验证码</van-tag
+              >
             </div>
           </div>
         </li>
         <li class="address-item">
-          <van-field clearable v-model="userInfo.verifyCode" placeholder="验证码" />
+          <van-field
+            clearable
+            v-model="userInfo.verifyCode"
+            placeholder="验证码"
+          />
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password" placeholder="密码" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password"
+            placeholder="密码"
+          />
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password1" placeholder="再次确认" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password1"
+            placeholder="再次确认"
+          />
         </li>
       </ul>
     </section>
 
     <div class="address-btn">
       <!-- <router-link to="/mine/addAddress"> -->
-      <van-button type="danger" @click="handleSavePhoneNumber" size="large">保存</van-button>
+      <van-button type="danger" @click="handleSavePhoneNumber" size="large"
+        >保存</van-button
+      >
       <!-- </router-link> -->
     </div>
   </div>
@@ -46,15 +68,15 @@
 
 <script>
 export default {
-  name: 'phoneNumberSetting',
-  data () {
+  name: "phoneNumberSetting",
+  data() {
     return {
       userInfo: this.$route.query
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    handleSavePhoneNumber () {
+    handleSavePhoneNumber() {
       if (this.userInfo.password === this.userInfo.password1) {
         this.$http
           .post(`/api/user/updateUserInfo`, this.userInfo)
@@ -63,38 +85,41 @@ export default {
               mask: false,
               duration: 1000,
               message: response.data.msg
-            })
-            this.$router.go(-1)
-          })
+            });
+            this.$router.go(-1);
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '两次输入的密码不一致！'
-        })
+          message: "两次输入的密码不一致！"
+        });
       }
     },
-    handleGetVerifyCode () {
+    handleGetVerifyCode() {
       if (this.userInfo.mobile) {
         this.$http
-          .post(`/api/user/getVerifyCode`, { mobile: this.userInfo.mobile, type: 3 })
+          .post(`/api/user/getVerifyCode`, {
+            mobile: this.userInfo.mobile,
+            type: 3
+          })
           .then(response => {
             this.$toast({
               mask: false,
               duration: 1000,
-              message: '验证码获取成功！'
-            })
-          })
+              message: "验证码获取成功！"
+            });
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请输入手机号'
-        })
+          message: "请输入手机号"
+        });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -115,14 +140,14 @@ export default {
         align-items: flex-start;
         flex-direction: column;
         padding: 10px 0;
-        /deep/ .van-cell {
+        ::deep .van-cell {
           padding-left: 0;
         }
-        /deep/ .van-cell__title span {
+        ::deep .van-cell__title span {
           font-size: 14px;
           color: #3a3a3a;
         }
-        /deep/ .van-cell:not(:last-child)::after {
+        ::deep .van-cell:not(:last-child)::after {
           border: none;
         }
         .address-name {
@@ -134,10 +159,10 @@ export default {
             flex: 1;
             justify-content: center;
             align-items: center;
-            /deep/ .van-tag::after {
+            ::deep .van-tag::after {
               border-radius: 8px;
             }
-            /deep/ .van-tag {
+            ::deep .van-tag {
               width: 78px;
               text-align: center;
               height: 22px;
@@ -154,14 +179,14 @@ export default {
     width: 92%;
     color: #fff;
 
-    /deep/ .van-button--large {
+    ::deep .van-button--large {
       height: 44px;
       line-height: 44px;
     }
-    /deep/ .van-button--danger {
-      background-color: #EC3924;
+    ::deep .van-button--danger {
+      background-color: #ec3924;
     }
-    /deep/ .van-button__text {
+    ::deep .van-button__text {
       color: #fff;
     }
   }

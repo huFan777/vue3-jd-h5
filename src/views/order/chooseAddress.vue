@@ -22,40 +22,45 @@
       @click="handleChooseAddress(address.userAddrId)"
     >
       <ul class="card-content">
-        <div class="card-triangle" :class="{'active':address.defaultFlag}"></div>
+        <div
+          class="card-triangle"
+          :class="{ active: address.defaultFlag }"
+        ></div>
         <li class="addres-svg">
           <svg-icon
-            :class="{'active':address.defaultFlag}"
+            :class="{ active: address.defaultFlag }"
             icon-class="address-home"
             v-if="address.tag === '家'"
           ></svg-icon>
           <svg-icon
-            :class="{'active':address.defaultFlag}"
+            :class="{ active: address.defaultFlag }"
             icon-class="address-company"
             v-if="address.tag === '公司'"
           ></svg-icon>
           <svg-icon
-            :class="{'active':address.defaultFlag}"
+            :class="{ active: address.defaultFlag }"
             icon-class="address-school"
             v-if="address.tag === '学校'"
           ></svg-icon>
         </li>
         <li class="card-info">
           <div class="info-name">
-            <span>{{address.receiverName}}</span>
-            <i>{{address.tag}}</i>
+            <span>{{ address.receiverName }}</span>
+            <i>{{ address.tag }}</i>
           </div>
           <div class="info-address">
-            <span>{{address.fullAddress}}</span>
+            <span>{{ address.fullAddress }}</span>
             <van-icon name="arrow" color="#EC3924" />
           </div>
-          <span>{{address.receiverPhone}}</span>
+          <span>{{ address.receiverPhone }}</span>
         </li>
       </ul>
     </section>
     <div class="address-btn">
       <router-link to="/mine/addAddress">
-        <van-button plain type="danger" icon="plus" size="large">新增地址</van-button>
+        <van-button plain type="danger" icon="plus" size="large"
+          >新增地址</van-button
+        >
       </router-link>
     </div>
   </div>
@@ -63,26 +68,26 @@
 
 <script>
 export default {
-  name: 'ChooseAddress',
-  data () {
+  name: "ChooseAddress",
+  data() {
     return {
       addressArray: [],
       orderForm: this.$route.query
-    }
+    };
   },
-  created () {
-    this.getUserList()
+  created() {
+    this.getUserList();
   },
   methods: {
-    handleChooseAddress (userAddrId) {
-      let skuInfoForm = {}
+    handleChooseAddress(userAddrId) {
+      let skuInfoForm = {};
       if (this.$route.query.skuId) {
         skuInfoForm = {
           quantity: this.$route.query.quantity,
           skuId: this.$route.query.skuId
-        }
+        };
       } else {
-        skuInfoForm = null
+        skuInfoForm = null;
       }
       this.$http
         .post(`/api/order/checkout`, {
@@ -103,17 +108,17 @@ export default {
               selectedGoodsId: this.$route.query.cartItemIds,
               userAddrId: userAddrId
             }
-          })
-        })
+          });
+        });
     },
-    getUserList () {
+    getUserList() {
       // 获取用户列表
       this.$http.get(`/api/address/getUserAddrList`).then(response => {
-        this.addressArray = response.data.content
-      })
+        this.addressArray = response.data.content;
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -205,11 +210,11 @@ export default {
     position: fixed;
     bottom: 10px;
     width: 92%;
-    /deep/ .van-button--large {
+    ::deep .van-button--large {
       height: 44px;
       line-height: 44px;
     }
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       color: #ec3924;
     }
   }

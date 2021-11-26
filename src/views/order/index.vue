@@ -8,12 +8,12 @@
     </cm-header>
     <list-scroll :scrollX="true">
       <section class="order-tag" ref="searchWrap">
-        <span :class="{'active' : type==0}" @click="selectTag(0)">全部</span>
-        <span :class="{'active' : type==1}" @click="selectTag(1)">待付款</span>
-        <span :class="{'active' : type==2}" @click="selectTag(2)">待发货</span>
-        <span :class="{'active' : type==3}" @click="selectTag(3)">待收货</span>
-        <span :class="{'active' : type==4}" @click="selectTag(4)">已完成</span>
-        <span :class="{'active' : type==5}" @click="selectTag(5)">已取消</span>
+        <span :class="{ active: type == 0 }" @click="selectTag(0)">全部</span>
+        <span :class="{ active: type == 1 }" @click="selectTag(1)">待付款</span>
+        <span :class="{ active: type == 2 }" @click="selectTag(2)">待发货</span>
+        <span :class="{ active: type == 3 }" @click="selectTag(3)">待收货</span>
+        <span :class="{ active: type == 4 }" @click="selectTag(4)">已完成</span>
+        <span :class="{ active: type == 5 }" @click="selectTag(5)">已取消</span>
       </section>
     </list-scroll>
 
@@ -24,77 +24,126 @@
         <i>可以多去看看，或许能找到您想要的</i>
       </span>
     </div>
-    <section v-else class="order-card" v-for="(orderList,index)  in orderLists" :key="index">
+    <section
+      v-else
+      class="order-card"
+      v-for="(orderList, index) in orderLists"
+      :key="index"
+    >
       <ul class="order-list">
         <li class="order-item">
           <div class="store-info">
             <img :src="orderList.logoUrl" class="header-img" />
-            <b class="shop-name">{{orderList.shopName}}</b>
+            <b class="shop-name">{{ orderList.shopName }}</b>
           </div>
-          <b class="order-status">{{orderStatus[orderList.status]}}</b>
+          <b class="order-status">{{ orderStatus[orderList.status] }}</b>
         </li>
 
         <li
-          @click="handleGoToOrderDetail(orderList.status,orderList.orderNo,orderList.complain)"
+          @click="
+            handleGoToOrderDetail(
+              orderList.status,
+              orderList.orderNo,
+              orderList.complain
+            )
+          "
           class="order-info"
-          v-for="(item,i) in orderList.appOrderProductVos"
+          v-for="(item, i) in orderList.appOrderProductVos"
           :key="i"
         >
           <img v-lazy="item.productMainUrl" />
           <div class="order-detail">
             <p class="info-one">
-              <span class="product-name">{{item.productName}}</span>
-              <b>￥{{item.productAmount}}</b>
+              <span class="product-name">{{ item.productName }}</span>
+              <b>￥{{ item.productAmount }}</b>
             </p>
             <p class="info-two">
-              <span>{{item.fullName}}</span>
-              <span>×{{item.quantity}}</span>
+              <span>{{ item.fullName }}</span>
+              <span>×{{ item.quantity }}</span>
             </p>
             <p class="info-three">
-              <span v-if="item.appealStatus" class="force-value">{{item.appealStatus}}倍算力值</span>
-              <i v-if="item.appealStatus == 0" class="appeal-status">该商品申诉中</i>
-              <i v-if="item.appealStatus == 1" class="appeal-status">申请成功/已退款</i>
-              <i v-if="item.appealStatus == 2" class="appeal-status">该商品申诉失败</i>
+              <span v-if="item.appealStatus" class="force-value"
+                >{{ item.appealStatus }}倍算力值</span
+              >
+              <i v-if="item.appealStatus == 0" class="appeal-status"
+                >该商品申诉中</i
+              >
+              <i v-if="item.appealStatus == 1" class="appeal-status"
+                >申请成功/已退款</i
+              >
+              <i v-if="item.appealStatus == 2" class="appeal-status"
+                >该商品申诉失败</i
+              >
               <!-- appealStatus 申诉状态:{0:申诉中,1:已退款,2:已驳回} -->
             </p>
           </div>
         </li>
         <li
           class="payment-time"
-          v-show="(new Date(orderList.endPayDate).getTime() - new Date().getTime())>0"
+          v-show="
+            new Date(orderList.endPayDate).getTime() - new Date().getTime() > 0
+          "
         >
           <i>剩余付款时间：</i>
           <van-count-down
-            :time="new Date(orderList.endPayDate).getTime() - new Date().getTime()"
+            :time="
+              new Date(orderList.endPayDate).getTime() - new Date().getTime()
+            "
             class="time-count-down"
             format="mm:ss"
           ></van-count-down>
         </li>
         <li class="order-count">
-          <span class="order-quantity">共{{orderList.quantity}}件商品,小计:</span>
-          <b class="order-amount">￥{{orderList.amount}}</b>
+          <span class="order-quantity"
+            >共{{ orderList.quantity }}件商品,小计:</span
+          >
+          <b class="order-amount">￥{{ orderList.amount }}</b>
           <small>(含运费)</small>
         </li>
         <li class="order-btn">
           <!-- 待付款, -->
           <div v-if="orderList.status == 0">
-            <router-link tag="span" :to="`/order/cancelOrder?orderNo=${orderList.orderNo}`">取消订单</router-link>
+            <router-link
+              tag="span"
+              :to="`/order/cancelOrder?orderNo=${orderList.orderNo}`"
+              >取消订单</router-link
+            >
             <span @click="handleGoToPay(orderList)">去支付</span>
           </div>
           <!-- 待发货 -->
           <div v-if="orderList.status == 1">
-            <router-link :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`" tag="span">查看物流</router-link>
+            <router-link
+              :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`"
+              tag="span"
+              >查看物流</router-link
+            >
           </div>
           <!-- 待收货 -->
           <div v-if="orderList.status == 2">
-            <span v-if="orderList.complain == 0" @click="handleToAppeal(orderList)">申诉</span>
-            <router-link :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`" tag="span">查看物流</router-link>
+            <span
+              v-if="orderList.complain == 0"
+              @click="handleToAppeal(orderList)"
+              >申诉</span
+            >
+            <router-link
+              :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`"
+              tag="span"
+              >查看物流</router-link
+            >
             <span @click="handleConfirmReceipt(orderList)">确定收货</span>
           </div>
           <!-- 3-已完成 -->
           <div v-if="orderList.status == 3">
-            <span v-if="orderList.complain == 0" @click="handleToAppeal(orderList)">申诉</span>
-            <router-link :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`" tag="span">查看物流</router-link>
+            <span
+              v-if="orderList.complain == 0"
+              @click="handleToAppeal(orderList)"
+              >申诉</span
+            >
+            <router-link
+              :to="`/order/viewLogistics?orderNo=${orderList.orderNo}`"
+              tag="span"
+              >查看物流</router-link
+            >
             <!-- <span @click="handleConfirmReceipt(orderList)">确定收货</span> -->
           </div>
           <!-- 4-已取消 -->
@@ -106,7 +155,12 @@
         </li>
       </ul>
     </section>
-<van-popup v-model="show" round position="bottom" :style="{ height: '10%' }"></van-popup>
+    <van-popup
+      v-model="show"
+      round
+      position="bottom"
+      :style="{ height: '10%' }"
+    ></van-popup>
     <vue-pickers
       :show="show"
       :columns="columns"
@@ -119,55 +173,55 @@
 </template>
 
 <script>
-import ListScroll from '../../components/scroll/ListScroll'
+import ListScroll from "../../components/scroll/ListScroll";
 export default {
-  name: 'Order',
+  name: "Order",
   components: {
     ListScroll
   },
-  data () {
+  data() {
     return {
       type: this.$route.query.type || 0,
-      orderStatus: ['等待付款', '待发货', '待收货', '交易完成', '已取消'],
+      orderStatus: ["等待付款", "待发货", "待收货", "交易完成", "已取消"],
       orderLists: [],
-      orderNo: '',
+      orderNo: "",
       columns: 1,
       cartMode: true, // 购物车的模式，true 是显示出编辑按钮 false 是显示完成按钮,默认是false;
       defaultData: [
         {
-          text: 'CoinPay',
-          value: 'CoinPay'
+          text: "CoinPay",
+          value: "CoinPay"
         }
       ],
       pickData: {
         data1: [
           {
-            text: 'CoinPay',
-            value: 'CoinPay'
+            text: "CoinPay",
+            value: "CoinPay"
           }
         ]
       },
       show: false
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
-  mounted () {
-    this.setSearchWrapWidth()
-    this.$eventBus.$emit('changeTag', 1)
+  mounted() {
+    this.setSearchWrapWidth();
+    this.$eventBus.$emit("changeTag", 1);
   },
   methods: {
-    handleConfirmReceipt (orderList) {
+    handleConfirmReceipt(orderList) {
       let flagArrays = orderList.appOrderProductVos.filter(
         it => it.appealStatus === 0
-      )
+      );
       if (flagArrays.length > 0) {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '改订单存在申诉商品，无法完成收货！'
-        })
+          message: "改订单存在申诉商品，无法完成收货！"
+        });
       } else {
         this.$http
           .post(`/api/order/confirmOrder`, { orderNo: orderList.orderNo })
@@ -175,30 +229,30 @@ export default {
             this.$toast({
               mask: false,
               duration: 1000,
-              message: '操作成功!'
-            })
-            this.initData()
-          })
+              message: "操作成功!"
+            });
+            this.initData();
+          });
       }
     },
-    handleToAppeal (orderList) {
+    handleToAppeal(orderList) {
       let flagArrays = orderList.appOrderProductVos.filter(
         it => it.appealStatus === null
-      )
+      );
       if (flagArrays.length > 0) {
         this.$router.push({
           name: `appeal`,
           params: orderList
-        })
+        });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '所有商品已经申诉过，无法再次申诉！'
-        })
+          message: "所有商品已经申诉过，无法再次申诉！"
+        });
       }
     },
-    initData () {
+    initData() {
       this.$http
         .post(`/api/order/list`, {
           pageNum: 1,
@@ -206,80 +260,80 @@ export default {
           type: this.type
         })
         .then(response => {
-          this.orderLists = response.data.content
-        })
+          this.orderLists = response.data.content;
+        });
     },
-    handleGoToOrderDetail (status, orderNo, complain) {
+    handleGoToOrderDetail(status, orderNo, complain) {
       switch (status) {
         case 0:
           this.$router.push(
             `/order/pendingPayment?orderNo=${orderNo}&complain=${complain}`
-          )
-          break
+          );
+          break;
         case 1:
           this.$router.push(
             `/order/toBeDelivered?orderNo=${orderNo}&complain=${complain}`
-          )
-          break
+          );
+          break;
         case 2:
           this.$router.push(
             `/order/pendingReceipt?orderNo=${orderNo}&complain=${complain}`
-          )
-          break
+          );
+          break;
         case 3:
           this.$router.push(
             `/order/completedOrder?orderNo=${orderNo}&complain=${complain}`
-          )
-          break
+          );
+          break;
         case 4:
           // this.$router.push(`/order/cancelOrder?orderNo=${orderNo}`);
-          break
+          break;
 
         default:
-          break
+          break;
       }
     },
-    setSearchWrapWidth () {
-      let $screenWidth = document.documentElement.clientWidth
-      this.$refs.searchWrap.style.width = $screenWidth + 100 + 'px'
+    setSearchWrapWidth() {
+      let $screenWidth = document.documentElement.clientWidth;
+      this.$refs.searchWrap.style.width = $screenWidth + 100 + "px";
     },
-    selectTag (type) {
-      this.type = type
-      this.initData()
+    selectTag(type) {
+      this.type = type;
+      this.initData();
     },
-    close () {
-      this.show = false
+    close() {
+      this.show = false;
     },
-    handleGoToPay (orderList) {
+    handleGoToPay(orderList) {
       // this.show = true;
       // this.orderNo = orderNo;
       this.$router.push({
-        name: 'orderDetail',
+        name: "orderDetail",
         params: orderList
-      })
+      });
     },
-    confirmFn () {
-      this.show = false
+    confirmFn() {
+      this.show = false;
       this.$http
         .get(`/api/coinPay/testPay?orderNo=${this.orderNo}`)
-        .then(response => {})
+        .then(response => {});
       this.$toast.loading({
         mask: true,
         duration: 1000, // 持续展示 toast
         forbidClick: true, // 禁用背景点击
-        loadingType: 'spinner',
-        message: '支付中...'
-      })
+        loadingType: "spinner",
+        message: "支付中..."
+      });
       setTimeout(() => {
         // this.$toast({
         //   mask: false,
         //   message: "支付成功~"
         // });
-        this.$router.push('/order/transactionDetails')
-      }, 1300)
+        this.$router.push("/order/transactionDetails");
+      }, 1300);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -408,7 +462,7 @@ export default {
         font-size: 9px;
         color: #949497;
         padding-bottom: 5px;
-        /deep/ .van-count-down {
+        ::deep .van-count-down {
           font-size: 9px;
           color: #949497;
         }

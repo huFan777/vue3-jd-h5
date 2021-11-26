@@ -1,4 +1,3 @@
-
 <template>
   <div class="pay-deposit">
     <cm-header>
@@ -10,17 +9,23 @@
     <section class="apply-content">
       <ul class="address-list">
         <li class="pay-item">
-          <img class="pay-deposit-svg" src="../../assets/image/logistics/pay-deposit.png" alt="">
+          <img
+            class="pay-deposit-svg"
+            src="../../assets/image/logistics/pay-deposit.png"
+            alt=""
+          />
           <span class="thanks-text">您还需缴纳保证金</span>
         </li>
         <li class="reault-text">
           <b>300USDT</b>
         </li>
-        <img src="@/assets/image/logistics/pay-deposit-background.png" alt="">
+        <img src="@/assets/image/logistics/pay-deposit-background.png" alt="" />
       </ul>
     </section>
     <div class="pay-btn">
-      <van-button type="danger" @click="handlePayDeposit" size="large">缴纳</van-button>
+      <van-button type="danger" @click="handlePayDeposit" size="large"
+        >缴纳</van-button
+      >
     </div>
     <van-dialog
       class="node-dialog"
@@ -45,14 +50,21 @@
             <label>支付</label>
           </div>
           <div class="icons-box" @click="handleShow" v-click-outside="hidden">
-            <svg-icon icon-class="arrow-down" :class="{'active-arrow-down':isActive}"></svg-icon>
+            <svg-icon
+              icon-class="arrow-down"
+              :class="{ 'active-arrow-down': isActive }"
+            ></svg-icon>
             <div class="select-absolte">
               <svg-icon v-if="item.icon" :icon-class="item.icon"></svg-icon>
-              <span>{{item.text}}</span>
+              <span>{{ item.text }}</span>
             </div>
           </div>
         </li>
-        <drop-list class="drop-list-play" :config="configData" ref="droplist"></drop-list>
+        <drop-list
+          class="drop-list-play"
+          :config="configData"
+          ref="droplist"
+        ></drop-list>
         <li class="content-btn">
           <span class="know-btn" @click="handleClose">确认</span>
         </li>
@@ -62,13 +74,13 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from "vue-click-outside";
 export default {
-  name: 'waitingReviewResults',
+  name: "waitingReviewResults",
   directives: {
     ClickOutside
   },
-  data () {
+  data() {
     return {
       applyInfo: {},
       item: {},
@@ -76,17 +88,17 @@ export default {
       isActive: false,
       configData: {
         position: {
-          top: '135px',
-          right: '12px',
-          bottom: '',
-          left: ''
+          top: "135px",
+          right: "12px",
+          bottom: "",
+          left: ""
         },
-        width: '30%', // 设置宽度
+        width: "30%", // 设置宽度
         list: [
           // 设置下拉列表数据和对应的点击事件
           {
-            text: 'CoinPay',
-            icon: 'coin-pay',
+            text: "CoinPay",
+            icon: "coin-pay",
             action: this.handleCoinPay
           }
           // {
@@ -96,35 +108,35 @@ export default {
           // }
         ]
       }
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    handlePayDeposit () {
-      this.showDialog = true
+    handlePayDeposit() {
+      this.showDialog = true;
     },
-    handleClose () {
-      this.showDialog = false
+    handleClose() {
+      this.showDialog = false;
       this.$http.post(`/api/shop/pay/deposit`).then(response => {
-        this.$router.push(`/merchantsSettled/waitingReviewResults`)
-      })
+        this.$router.push(`/merchantsSettled/waitingReviewResults`);
+      });
     },
-    handleCoinPay (item) {
-      this.item = item
+    handleCoinPay(item) {
+      this.item = item;
     },
-    handleAlipay (item) {
-      this.item = item
+    handleAlipay(item) {
+      this.item = item;
     },
-    hidden () {
-      this.isActive = false
-      this.$refs.droplist.hidden()
+    hidden() {
+      this.isActive = false;
+      this.$refs.droplist.hidden();
     },
-    handleShow () {
-      this.isActive = true
-      this.$refs.droplist.show()
+    handleShow() {
+      this.isActive = true;
+      this.$refs.droplist.show();
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -183,11 +195,11 @@ export default {
     left: 0;
     right: 0;
     padding: 0 16px;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;
-         border-radius: 4px;
+      border-radius: 4px;
     }
   }
   .node-dialog {

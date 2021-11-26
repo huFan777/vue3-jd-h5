@@ -3,7 +3,9 @@
     <header class="header-box">
       <div class="header-search">
         <svg-icon class="search-icon" icon-class="search"></svg-icon>
-        <router-link tag="span" class="search-title" to="./search">搜索</router-link>
+        <router-link tag="span" class="search-title" to="./search"
+          >搜索</router-link
+        >
       </div>
     </header>
     <section class="index-box">
@@ -34,37 +36,37 @@
 
 <script>
 export default {
-  name: 'countryRegion',
-  data () {
+  name: "countryRegion",
+  data() {
     return {
       indexList: [
-        'G',
-        'H',
-        'W',
-        'J',
-        'X',
-        'K',
-        'Y',
-        'Z',
-        'M',
-        'N',
-        'A',
-        'B',
-        'P',
-        'X',
-        'Q',
-        'D',
-        'R',
-        'S',
-        'F',
-        'T',
-        'E'
+        "G",
+        "H",
+        "W",
+        "J",
+        "X",
+        "K",
+        "Y",
+        "Z",
+        "M",
+        "N",
+        "A",
+        "B",
+        "P",
+        "X",
+        "Q",
+        "D",
+        "R",
+        "S",
+        "F",
+        "T",
+        "E"
       ]
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {}
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -95,13 +97,13 @@ export default {
   }
   .index-box {
     padding: 0 16px;
-    /deep/ .van-index-bar {
+    ::deep .van-index-bar {
       border-radius: 8px;
     }
-    /deep/ .van-index-bar__sidebar {
+    ::deep .van-index-bar__sidebar {
       color: #2b8bff;
     }
-    /deep/ .letter-idnex {
+    ::deep .letter-idnex {
       color: #2a2a2a;
       font-size: 20px;
       font-weight: 700;

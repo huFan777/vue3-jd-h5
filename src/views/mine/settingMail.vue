@@ -9,7 +9,7 @@
  -->
 <template>
   <div class="phone-number-setting">
-     <cm-header>
+    <cm-header>
       <span slot="left" @click="$router.go(-1)">
         <svg-icon icon-class="green-btn"></svg-icon>
       </span>
@@ -18,63 +18,87 @@
     <section class="address-content">
       <ul class="address-list">
         <li class="address-item">
-          <van-field v-model="userInfo.email" clearable placeholder="请输入邮箱" />
+          <van-field
+            v-model="userInfo.email"
+            clearable
+            placeholder="请输入邮箱"
+          />
         </li>
         <li class="address-item">
           <div class="address-name">
-            <van-field v-model="userInfo.verifyCode" placeholder="请输入验证码" />
+            <van-field
+              v-model="userInfo.verifyCode"
+              placeholder="请输入验证码"
+            />
             <div class="verification-code">
-              <van-tag @click="handleGetVerifyCode" color="#3C96FF" plain>获取验证码</van-tag>
+              <van-tag @click="handleGetVerifyCode" color="#3C96FF" plain
+                >获取验证码</van-tag
+              >
             </div>
           </div>
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password" placeholder="密码" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password"
+            placeholder="密码"
+          />
         </li>
         <li class="address-item">
-          <van-field type="password" clearable v-model="userInfo.password1" placeholder="再次确认" />
+          <van-field
+            type="password"
+            clearable
+            v-model="userInfo.password1"
+            placeholder="再次确认"
+          />
         </li>
       </ul>
     </section>
 
     <div class="address-btn">
-      <van-button type="danger" @click="handleSetEmail" size="large">设置</van-button>
+      <van-button type="danger" @click="handleSetEmail" size="large"
+        >设置</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'phoneNumberSetting',
-  data () {
+  name: "phoneNumberSetting",
+  data() {
     return {
       userInfo: this.$route.query
-    }
+    };
   },
-  created () {},
+  created() {},
   methods: {
-    handleGetVerifyCode () {
+    handleGetVerifyCode() {
       if (this.userInfo.email) {
         this.$http
-          .post(`/api/user/getVerifyCode`, { email: this.userInfo.email, type: 3 })
+          .post(`/api/user/getVerifyCode`, {
+            email: this.userInfo.email,
+            type: 3
+          })
           .then(response => {
             this.$toast({
               mask: false,
               duration: 1000,
-              message: '验证码获取成功！'
-            })
-          })
+              message: "验证码获取成功！"
+            });
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请输入邮箱号'
-        })
+          message: "请输入邮箱号"
+        });
       }
     },
-    handleSetEmail () {
+    handleSetEmail() {
       if (this.userInfo.password === this.userInfo.password1) {
-        this.userInfo.mobile = null
+        this.userInfo.mobile = null;
         this.$http
           .post(`/api/user/updateUserInfo`, this.userInfo)
           .then(response => {
@@ -82,19 +106,19 @@ export default {
               mask: false,
               duration: 1000,
               message: response.data.msg
-            })
-            this.$router.go(-1)
-          })
+            });
+            this.$router.go(-1);
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '两次输入的密码不一致！'
-        })
+          message: "两次输入的密码不一致！"
+        });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -115,14 +139,14 @@ export default {
         align-items: flex-start;
         flex-direction: column;
         padding: 10px 0;
-        /deep/ .van-cell {
+        ::deep .van-cell {
           padding-left: 0;
         }
-        /deep/ .van-cell__title span {
+        ::deep .van-cell__title span {
           font-size: 14px;
           color: #3a3a3a;
         }
-        /deep/ .van-cell:not(:last-child)::after {
+        ::deep .van-cell:not(:last-child)::after {
           border: none;
         }
         .address-name {
@@ -134,10 +158,10 @@ export default {
             flex: 1;
             justify-content: center;
             align-items: center;
-            /deep/ .van-tag::after {
+            ::deep .van-tag::after {
               border-radius: 8px;
             }
-            /deep/ .van-tag {
+            ::deep .van-tag {
               width: 78px;
               text-align: center;
               height: 22px;
@@ -154,14 +178,14 @@ export default {
     width: 92%;
     color: #fff;
 
-    /deep/ .van-button--large {
+    ::deep .van-button--large {
       height: 44px;
       line-height: 44px;
     }
-    /deep/ .van-button--danger {
-      background-color: #EC3924;
+    ::deep .van-button--danger {
+      background-color: #ec3924;
     }
-    /deep/ .van-button__text {
+    ::deep .van-button__text {
       color: #fff;
     }
   }

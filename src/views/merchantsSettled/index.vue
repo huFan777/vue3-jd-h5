@@ -45,15 +45,17 @@
     </ul>
     <div>&nbsp;</div>
     <router-link class="pay-btn" tag="div" to="/merchantsSettled/shopApplyInfo">
-      <van-button type="danger" @click="show = true" size="large">申请入驻</van-button>
+      <van-button type="danger" @click="show = true" size="large"
+        >申请入驻</van-button
+      >
     </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'merchantsSettled',
-  data () {
+  name: "merchantsSettled",
+  data() {
     return {
       systemMessage: {},
       checked: false,
@@ -64,46 +66,46 @@ export default {
       businessLicenseUrl: [],
       shopForm: {},
       mallMessage: {}
-    }
+    };
   },
-  created () {
+  created() {
     this.$http.get(`/api/message/messageTypeCount`).then(response => {
       response.data.content.forEach(it => {
-        it.type === 1 ? (this.mallMessage = it) : (this.systemMessage = it)
-      })
-    })
+        it.type === 1 ? (this.mallMessage = it) : (this.systemMessage = it);
+      });
+    });
   },
   methods: {
-    afterReadA (res) {
-      let formData = new FormData()
-      formData.append('file', res.file)
+    afterReadA(res) {
+      let formData = new FormData();
+      formData.append("file", res.file);
       this.$http.post(`/api/shop/upload/image`, formData).then(response => {
-        this.shopForm.idCardNoUrlA = response.data.content.imageUrl
-      })
+        this.shopForm.idCardNoUrlA = response.data.content.imageUrl;
+      });
     },
-    afterReadB (res) {
-      let formData = new FormData()
-      formData.append('file', res.file)
+    afterReadB(res) {
+      let formData = new FormData();
+      formData.append("file", res.file);
       this.$http.post(`/api/shop/upload/image`, formData).then(response => {
-        this.shopForm.idCardNoUrlB = response.data.content.imageUrl
-      })
+        this.shopForm.idCardNoUrlB = response.data.content.imageUrl;
+      });
     },
-    afterReadC (res) {
-      let formData = new FormData()
-      formData.append('file', res.file)
+    afterReadC(res) {
+      let formData = new FormData();
+      formData.append("file", res.file);
       this.$http.post(`/api/shop/upload/image`, formData).then(response => {
-        this.shopForm.idCardNoUrlC = response.data.content.imageUrl
-      })
+        this.shopForm.idCardNoUrlC = response.data.content.imageUrl;
+      });
     },
-    afterReadBusinessLicenseUrl (res) {
-      let formData = new FormData()
-      formData.append('file', res.file)
+    afterReadBusinessLicenseUrl(res) {
+      let formData = new FormData();
+      formData.append("file", res.file);
       this.$http.post(`/api/shop/upload/image`, formData).then(response => {
-        this.shopForm.businessLicenseUrl = response.data.content.imageUrl
-      })
+        this.shopForm.businessLicenseUrl = response.data.content.imageUrl;
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -152,7 +154,7 @@ export default {
     right: 0;
     padding: 0 16px;
 
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;

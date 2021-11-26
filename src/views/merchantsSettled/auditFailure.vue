@@ -9,20 +9,27 @@
     <section class="apply-content">
       <ul class="address-list">
         <li class="audit-result">
-          <svg-icon class="exclamation-mark" icon-class="exclamation-mark"></svg-icon>
+          <svg-icon
+            class="exclamation-mark"
+            icon-class="exclamation-mark"
+          ></svg-icon>
           <span class="fail-text">审核失败！</span>
         </li>
         <li class="audit-item">
           <label>理由：</label>
-          <span class="fail-reason">{{applyInfo.reason||''}}</span>
+          <span class="fail-reason">{{ applyInfo.reason || "" }}</span>
         </li>
         <li class="audit-item">
           <label>审核时间：</label>
-          <span class="audit-time">{{applyInfo.reviewTime||''}}</span>
+          <span class="audit-time">{{ applyInfo.reviewTime || "" }}</span>
         </li>
       </ul>
     </section>
-    <router-link class="pay-btn" tag="div" :to="`/merchantsSettled/shopApplyInfo?isEdit=true`">
+    <router-link
+      class="pay-btn"
+      tag="div"
+      :to="`/merchantsSettled/shopApplyInfo?isEdit=true`"
+    >
       <van-button type="danger" size="large">重新入驻</van-button>
     </router-link>
   </div>
@@ -30,21 +37,21 @@
 
 <script>
 export default {
-  name: 'auditFailure',
-  data () {
+  name: "auditFailure",
+  data() {
     return {
       applyInfo: {
-        reason: '',
-        reviewTime: ''
+        reason: "",
+        reviewTime: ""
       }
-    }
+    };
   },
-  created () {
+  created() {
     this.$http.post(`/api/shop/again/display`).then(response => {
-      this.applyInfo = response.data.content
-    })
+      this.applyInfo = response.data.content;
+    });
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -97,7 +104,7 @@ export default {
     left: 0;
     right: 0;
     padding: 0 16px;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #ec3924;
       line-height: 44px;
       font-size: 18px;

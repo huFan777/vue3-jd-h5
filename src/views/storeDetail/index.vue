@@ -11,7 +11,7 @@
       <ul class="store-top">
         <img :src="storeDetail.logoUrl" class="store-header" />
         <li class="store-name">
-          <p>{{storeDetail.shopName}}</p>
+          <p>{{ storeDetail.shopName }}</p>
           <span class="heart-full" @click="handleIsLise">
             <svg-icon v-if="isLike" icon-class="heart-full"></svg-icon>
             <svg-icon v-else icon-class="heart-null"></svg-icon>
@@ -20,15 +20,15 @@
       </ul>
       <ul class="store-center">
         <li class="store-introd">
-          <div>{{storeDetail.detail}}</div>
+          <div>{{ storeDetail.detail }}</div>
         </li>
         <li class="store-tel">
           <label>电话:</label>
-          <span>{{storeDetail.phone}}</span>
+          <span>{{ storeDetail.phone }}</span>
         </li>
         <li>
           <label>地址:</label>
-          <span>{{storeDetail.address}}</span>
+          <span>{{ storeDetail.address }}</span>
         </li>
         <li class="store-btn">
           <van-button size="small" type="danger">联系店家</van-button>
@@ -40,25 +40,27 @@
       <section class="select-menu">
         <div
           class="select-item default-sort"
-          :class="{'active' : activeOrderBy === 'update_time'}"
+          :class="{ active: activeOrderBy === 'update_time' }"
           data-order-by="update_time"
           @click="initSortData(true)"
-        >默认排序</div>
+        >
+          默认排序
+        </div>
 
         <div class="select-item">
           按价格
           <span class="select-arrows">
             <i
               class="sort-caret ascending"
-              :class="{'active' : activeOrderBy === 'price_asc'}"
+              :class="{ active: activeOrderBy === 'price_asc' }"
               data-order-by="price"
-              @click="selectOrder($event,'asc')"
+              @click="selectOrder($event, 'asc')"
             ></i>
             <i
               class="sort-caret descending"
-              :class="{'active' : activeOrderBy === 'price_desc'}"
+              :class="{ active: activeOrderBy === 'price_desc' }"
               data-order-by="price"
-              @click="selectOrder($event,'desc')"
+              @click="selectOrder($event, 'desc')"
             ></i>
           </span>
         </div>
@@ -67,16 +69,16 @@
           按销量
           <span class="select-arrows">
             <i
-              :class="{'active' : activeOrderBy === 'sales_quantity_asc'}"
+              :class="{ active: activeOrderBy === 'sales_quantity_asc' }"
               class="sort-caret ascending"
               data-order-by="sales_quantity"
-              @click="selectOrder($event,'asc')"
+              @click="selectOrder($event, 'asc')"
             ></i>
             <i
-              :class="{'active' : activeOrderBy === 'sales_quantity_desc'}"
+              :class="{ active: activeOrderBy === 'sales_quantity_desc' }"
               class="sort-caret descending"
               data-order-by="sales_quantity"
-              @click="selectOrder($event,'desc')"
+              @click="selectOrder($event, 'desc')"
             ></i>
           </span>
         </div>
@@ -84,26 +86,35 @@
           <svg-icon icon-class="search"></svg-icon>
         </div>
       </section>
-      <list-scroll :pullup="true" @scrollToEnd="handleScrollToEnd" :pulldown="true">
+      <list-scroll
+        :pullup="true"
+        @scrollToEnd="handleScrollToEnd"
+        :pulldown="true"
+      >
         <div>
           <div v-if="serarchResult.length">
             <section class="goods-box">
               <ul class="goods-content">
-                <template v-for="(item,index) in serarchResult">
+                <template v-for="(item, index) in serarchResult">
                   <router-link
                     :key="index"
                     tag="li"
                     class="goods-item"
                     :to="`/product/index?productId=${item.productId}`"
                   >
-                    <img class="goods-productMainImage" v-lazy="item.productMainImage" />
+                    <img
+                      class="goods-productMainImage"
+                      v-lazy="item.productMainImage"
+                    />
                     <div class="goods-layout">
-                      <div class="goods-title">{{item.productName}}</div>
-                      <span class="goods-div">{{item.labels}}</span>
+                      <div class="goods-title">{{ item.productName }}</div>
+                      <span class="goods-div">{{ item.labels }}</span>
                       <div class="goods-desc">
                         <span class="goods-price">
-                          <i>￥{{item.productCnyPrice}}</i>
-                          <span v-if="item.calculate" class="force-value">{{item.calculate}}倍算力值</span>
+                          <i>￥{{ item.productCnyPrice }}</i>
+                          <span v-if="item.calculate" class="force-value"
+                            >{{ item.calculate }}倍算力值</span
+                          >
                         </span>
                       </div>
                     </div>
@@ -111,8 +122,19 @@
                 </template>
               </ul>
             </section>
-            <van-divider :style="{ color: '#3A3A3A', borderColor: '#FFF' ,fontSize:'12px' }">
-              <van-loading v-if="loading" color="#EC3924" size="25px" type="spinner" />
+            <van-divider
+              :style="{
+                color: '#3A3A3A',
+                borderColor: '#FFF',
+                fontSize: '12px'
+              }"
+            >
+              <van-loading
+                v-if="loading"
+                color="#EC3924"
+                size="25px"
+                type="spinner"
+              />
               <i v-else>我是有底线的</i>
             </van-divider>
           </div>
@@ -131,85 +153,85 @@
 
 <script>
 export default {
-  name: 'storeDetail',
+  name: "storeDetail",
   components: {},
   props: {},
-  data () {
+  data() {
     return {
-      activeOrderBy: 'update_time',
-      sortType: 'desc',
-      orderBy: 'update_time',
+      activeOrderBy: "update_time",
+      sortType: "desc",
+      orderBy: "update_time",
       page: 1,
       isLike: false, // 是否点赞喜欢
       loading: false,
       storeDetail: {},
       serarchResult: []
-    }
+    };
   },
-  created () {
-    this.initData()
+  created() {
+    this.initData();
   },
-  mounted () {
-    this.setHomeWrapperHeight()
+  mounted() {
+    this.setHomeWrapperHeight();
   },
   methods: {
-    handleIsLise () {
-      this.isLike = !this.isLike
+    handleIsLise() {
+      this.isLike = !this.isLike;
       this.$http.post(`/api/user/addAttention`, {
         id: this.storeDetail.merchantId,
         type: 1
-      })
+      });
     },
-    setHomeWrapperHeight () {
-      let $screenHeight = document.documentElement.clientHeight
-      this.$refs.wrapper.style.height = $screenHeight - 40 + 'px'
+    setHomeWrapperHeight() {
+      let $screenHeight = document.documentElement.clientHeight;
+      this.$refs.wrapper.style.height = $screenHeight - 40 + "px";
     },
-    handleScrollToEnd () {
-      this.pageNum++
-      this.initData()
+    handleScrollToEnd() {
+      this.pageNum++;
+      this.initData();
     },
-    initData () {
+    initData() {
       this.$http
         .get(
           `/api/merchant/merchantShopInfo?merchantInfoId=${this.$route.query.merchantInfoId}`
         )
         .then(response => {
-          this.storeDetail = response.data.content
-          this.isLike = Boolean(this.storeDetail.attentionFlag)
-        })
-      this.initSortData()
+          this.storeDetail = response.data.content;
+          this.isLike = Boolean(this.storeDetail.attentionFlag);
+        });
+      this.initSortData();
     },
-    initSortData (flag) {
-      flag && (this.activeOrderBy = 'update_time')
+    initSortData(flag) {
+      flag && (this.activeOrderBy = "update_time");
       this.$http
         .get(
           `/api/product/list?merchantShopId=${
             this.$route.query.merchantInfoId
-          }&sortName=${flag ? 'update_time' : this.orderBy}&sortType=${
-            flag ? 'desc' : this.sortType
+          }&sortName=${flag ? "update_time" : this.orderBy}&sortType=${
+            flag ? "desc" : this.sortType
           }&page=${this.page}&size=20&clientType=0`
         )
         .then(response => {
-          this.serarchResult = response.data.content
-        })
+          this.serarchResult = response.data.content;
+        });
     },
-    handleSearch () {
+    handleSearch() {
       this.$router.push({
-        path: '/search',
+        path: "/search",
         query: { merchantShopId: this.$route.query.merchantInfoId }
-      })
+      });
     },
-    selectOrder (e, sortType) {
-      this.sortType = sortType
-      this.orderBy = e.currentTarget.getAttribute('data-order-by')
+    selectOrder(e, sortType) {
+      this.sortType = sortType;
+      this.orderBy = e.currentTarget.getAttribute("data-order-by");
       if (this.orderBy === this.activeOrderBy) {
-        return
+        return;
       }
-      this.activeOrderBy = this.orderBy + '_' + sortType
-      this.initSortData()
+      this.activeOrderBy = this.orderBy + "_" + sortType;
+      this.initSortData();
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -238,7 +260,7 @@ export default {
         align-items: center;
         color: #3a3a3a;
         font-size: 18px;
-         .heart-full {
+        .heart-full {
           margin-left: 10px;
         }
       }
@@ -258,7 +280,7 @@ export default {
       .store-btn {
         text-align: center;
         padding-top: 20px;
-        /deep/ .van-button--danger {
+        ::deep .van-button--danger {
           background-color: #ec3924;
         }
       }

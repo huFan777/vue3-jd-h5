@@ -47,17 +47,23 @@
       </ul>
       <ul class="area-info">
         <li class="info-item">
-          <b class="text-weight">{{applyNum*areaNode.price}}</b>
+          <b class="text-weight">{{ applyNum * areaNode.price }}</b>
           <small class="text-small">USDT</small>
         </li>
-        <li class="total-text">共{{applyNum}}份</li>
+        <li class="total-text">共{{ applyNum }}份</li>
         <li class="area-count">
-          <small>*该节点共{{areaNode.totalNum}}份，现剩余节点还有{{areaNode.totalNum-applyNum}}份</small>
+          <small
+            >*该节点共{{ areaNode.totalNum }}份，现剩余节点还有{{
+              areaNode.totalNum - applyNum
+            }}份</small
+          >
         </li>
       </ul>
     </section>
     <div class="application-btn">
-      <van-button type="danger" @click="handleApplication" size="large">申请</van-button>
+      <van-button type="danger" @click="handleApplication" size="large"
+        >申请</van-button
+      >
     </div>
     <vue-pickers
       :show="show"
@@ -79,11 +85,13 @@
     >
       <ul class="dialog-content">
         <li class="content-tips">
-          <span>确认支付{{applyNum*areaNode.price}} USDT成为州级节点？</span>
+          <span
+            >确认支付{{ applyNum * areaNode.price }} USDT成为州级节点？</span
+          >
         </li>
         <li class="content-count">
           <span>USDT</span>
-          <b class="text-weight">{{applyNum*areaNode.price}}</b>
+          <b class="text-weight">{{ applyNum * areaNode.price }}</b>
         </li>
         <li class="coin-pay">
           <div>
@@ -111,47 +119,47 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from "vue-click-outside";
 export default {
-  name: 'stateNode',
+  name: "stateNode",
   directives: {
     ClickOutside
   },
-  data () {
+  data() {
     return {
       show: false,
       item: {},
       areaData: {},
-      pickersType: 'country',
+      pickersType: "country",
       showDialog: false,
       isActive: false,
       columns: 1,
       configData: {
         position: {
-          top: '135px',
-          right: '8px',
-          bottom: '',
-          left: ''
+          top: "135px",
+          right: "8px",
+          bottom: "",
+          left: ""
         },
-        width: '30%', // 设置宽度
+        width: "30%", // 设置宽度
         list: [
           // 设置下拉列表数据和对应的点击事件
           {
-            text: 'CoinPay',
-            icon: 'coin-pay',
+            text: "CoinPay",
+            icon: "coin-pay",
             action: this.handleCoinPay
           },
           {
-            text: '支付宝',
-            icon: 'alipay-icon',
+            text: "支付宝",
+            icon: "alipay-icon",
             action: this.handleAlipay
           }
         ]
       },
       defaultData: [
         {
-          text: '中国',
-          value: 'China'
+          text: "中国",
+          value: "China"
         }
       ],
       pickData: {
@@ -162,41 +170,41 @@ export default {
           // }
         ]
       },
-      applyNum: '',
+      applyNum: "",
       areaNode: {
         limitNum: 0,
         totalNum: 0,
-        city: '',
+        city: "",
         price: 0
       }
-    }
+    };
   },
   watch: {
-    applyNum (value) {
+    applyNum(value) {
       if (value > this.areaNode.limitNum) {
-        this.applyNum = this.areaNode.limitNum
+        this.applyNum = this.areaNode.limitNum;
         this.$toast({
           mask: false,
           duration: 1000,
           message: `超过购买限制，限购${this.areaNode.limitNum}份`
-        })
+        });
       }
     }
   },
-  created () {},
+  created() {},
   methods: {
-    handleCountsClick () {
+    handleCountsClick() {
       if (!this.areaNode.province) {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请选择州/省级节点！'
-        })
-        this.applyNum = ''
+          message: "请选择州/省级节点！"
+        });
+        this.applyNum = "";
       }
     },
-    handleClose () {
-      this.showDialog = false
+    handleClose() {
+      this.showDialog = false;
       this.$http
         .post(`/api/node/apply`, {
           applyNum: this.applyNum,
@@ -206,101 +214,100 @@ export default {
           this.$toast({
             mask: false,
             duration: 1000,
-            message: '申请成功！'
-          })
-          this.$router.go(-1)
-        })
+            message: "申请成功！"
+          });
+          this.$router.go(-1);
+        });
     },
-    handleCoinPay (item) {
-      this.item = item
+    handleCoinPay(item) {
+      this.item = item;
     },
-    handleAlipay (item) {
-      this.item = item
+    handleAlipay(item) {
+      this.item = item;
     },
-    hidden () {
-      this.isActive = false
-      this.$refs.droplist.hidden()
+    hidden() {
+      this.isActive = false;
+      this.$refs.droplist.hidden();
     },
-    handleShow () {
-      this.isActive = true
-      this.$refs.droplist.show()
+    handleShow() {
+      this.isActive = true;
+      this.$refs.droplist.show();
     },
-    handleApplication () {
+    handleApplication() {
       if (this.areaNode.province && this.applyNum > 0) {
-        this.showDialog = true
+        this.showDialog = true;
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请输入申请份数！'
-        })
+          message: "请输入申请份数！"
+        });
       }
     },
-    handleShowCountry () {
-      this.show = true
-      this.pickersType = 'country'
+    handleShowCountry() {
+      this.show = true;
+      this.pickersType = "country";
       this.$http.get(`/api/node/getSetting?type=1`).then(response => {
-        let responseArray = response.data.content
+        let responseArray = response.data.content;
         this.pickData.data1 = responseArray.map(element => {
           return {
             text: element.name,
             value: element.id
-          }
-        })
-      })
+          };
+        });
+      });
     },
-    handleShowProvince () {
+    handleShowProvince() {
       if (this.areaNode.countryId) {
-        this.show = true
-        this.pickersType = 'province'
+        this.show = true;
+        this.pickersType = "province";
         this.$http
           .get(`/api/node/getSetting?parentId=${this.areaNode.countryId}`)
           .then(response => {
-            let responseArray = response.data.content
-            this.areaData = responseArray
+            let responseArray = response.data.content;
+            this.areaData = responseArray;
             this.pickData.data1 = responseArray.map(element => {
               return {
                 text: element.name,
                 value: element.id
-              }
-            })
-          })
+              };
+            });
+          });
       } else {
         this.$toast({
           mask: false,
           duration: 1000,
-          message: '请选择国家！'
-        })
+          message: "请选择国家！"
+        });
       }
     },
 
-    confirmFn (select) {
-      this.show = false
+    confirmFn(select) {
+      this.show = false;
       switch (this.pickersType) {
-        case 'country':
-          this.areaNode.country = select.select1.text
-          this.areaNode.countryId = select.select1.value
-          break
-        case 'province':
-          this.areaNode.province = select.select1.text
-          this.areaNode.provinceId = select.select1.value
+        case "country":
+          this.areaNode.country = select.select1.text;
+          this.areaNode.countryId = select.select1.value;
+          break;
+        case "province":
+          this.areaNode.province = select.select1.text;
+          this.areaNode.provinceId = select.select1.value;
           this.areaData.map(it => {
             if (it.id === select.select1.value) {
-              this.areaNode.totalNum = it.totalNum
-              this.areaNode.price = it.price
-              this.areaNode.limitNum = it.limitNum
+              this.areaNode.totalNum = it.totalNum;
+              this.areaNode.price = it.price;
+              this.areaNode.limitNum = it.limitNum;
             }
-          })
-          break
+          });
+          break;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
 .state-node {
-
   .area-content {
     margin: auto 16px;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
@@ -365,7 +372,7 @@ export default {
     left: 0;
     right: 0;
     padding: 0 16px;
-    /deep/ .van-button--danger {
+    ::deep .van-button--danger {
       background-color: #d8182d;
       line-height: 44px;
       font-size: 18px;
